@@ -15,7 +15,7 @@ import java.util.List;
 public class Professional extends User {
 
     private String summary;
-    private List<ServiceType> offeredServices;
+    private List<ServiceEnum> offeredServices;
     private BigDecimal consultationPrice;
     private List<Appointment> appointments;
 }

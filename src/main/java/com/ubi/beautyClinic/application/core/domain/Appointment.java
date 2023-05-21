@@ -14,7 +14,7 @@ public class Appointment {
     private Long id;
     private OffsetDateTime dateTime;
     private Status status;
-    private ServiceType service;
+    private ServiceEnum service;
     private Integer rating;
     private Professional professional;
     private Patient patient;
