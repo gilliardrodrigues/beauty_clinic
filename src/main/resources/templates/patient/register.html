@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register Page</title>
+  <link rel="stylesheet" type="text/css" href="../../static/patient/css/register.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <form id="registerForm">
+          <section>
+            <h2>Personal Information</h2>
+            <label for="fullname">Full Name:</label>
+            <input type="text" id="fullname" name="fullname" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+              <option value="" selected disabled>Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+            <label for="birthdate">Birthdate:</label>
+            <input type="date" id="birthdate" name="birthdate" required>
+          </section>
+    
+          <section>
+            <h2>Address</h2>
+            <label for="postalCode">Postal Code:</label>
+            <input type="text" id="postalCode" name="postalCode" required>
+            <label for="street">Street:</label>
+            <input type="text" id="street" name="street" required>
+            <label for="houseNumber">House Number:</label>
+            <input type="text" id="houseNumber" name="houseNumber" required>
+            <label for="neighborhood">Neighborhood:</label>
+            <input type="text" id="neighborhood" name="neighborhood" required>
+            <label for="city">City:</label>
+            <select id="city" name="city" required>
+              <option value="" selected disabled>Select City</option>
+              <option value="Sao Paulo">São Paulo</option>
+              <option value="Rio de Janeiro">Rio de Janeiro</option>
+              <option value="Salvador">Salvador</option>
+              <!-- Add more cities here -->
+            </select>
+            <label for="state">State:</label>
+            <select id="state" name="state" required>
+              <option value="" selected disabled>Select State</option>
+              <option value="SP">São Paulo</option>
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="BA">Bahia</option>
+              <!-- Add more states here -->
+            </select>
+          </section>
+    
+          <section>
+            <h2>Contact Information</h2>
+            <label for="countryCode">Country Code:</label>
+            <input type="text" id="countryCode" name="countryCode" required>
+            <label for="areaCode">Area Code:</label>
+            <input type="text" id="areaCode" name="areaCode" required>
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" required>
+          </section>
+    
+          <button type="submit">Register</button>
+        </form>
+        <p class="login-link">Already have an account? <a href="login.html">Login here</a></p>
+        <p id="message"></p>
+      </div>
+
+  <script src="../../static/patient/js/register.js"></script>
+</body>
+</html>
