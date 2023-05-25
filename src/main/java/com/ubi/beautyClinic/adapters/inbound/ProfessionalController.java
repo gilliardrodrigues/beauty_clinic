@@ -9,7 +9,13 @@ import com.ubi.beautyClinic.application.core.domain.Professional;
 import com.ubi.beautyClinic.application.core.exceptions.BusinessLogicException;
 import com.ubi.beautyClinic.application.ports.in.ProfessionalUseCaseInboundPort;
 import com.ubi.beautyClinic.config.JwtTokenUtil;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.TypeToken;
@@ -29,6 +35,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/professionals")
 @AllArgsConstructor
+@OpenAPIDefinition(info = @Info(title = "Beauty Clinic API", version = "1.0"))
+@SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 public class ProfessionalController {
 
     private final ProfessionalUseCaseInboundPort inboundPort;
@@ -40,6 +48,8 @@ public class ProfessionalController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Tag(name = "Profissionais")
+    @Operation(summary = "Autenticação de profissional")
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
@@ -62,6 +72,7 @@ public class ProfessionalController {
         }
     }
 
+    @Tag(name = "Profissionais")
     @PostMapping("/register")
     @Operation(summary = "Cadastrar um novo profissional")
     public ResponseEntity<ProfessionalResponse> registerProfessional(@RequestBody @Valid ProfessionalRequest requestDTO) {
@@ -72,6 +83,7 @@ public class ProfessionalController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
+    @Tag(name = "Profissionais")
     @GetMapping
     @Operation(summary = "Obter todos os profissionais")
     public ResponseEntity<List<ProfessionalResponse>> listAll() {
@@ -80,22 +92,25 @@ public class ProfessionalController {
         return ResponseEntity.ok(mapper.mapToList(professionals, new TypeToken<List<ProfessionalResponse>>() {}.getType()));
     }
 
+    @Tag(name = "Profissionais")
     @GetMapping("/{id}")
     @Operation(summary = "Obter profissional pelo ID")
-    public ResponseEntity<ProfessionalResponse> findProfessionalById(@PathVariable Long id) {
+    public ResponseEntity<ProfessionalResponse> findProfessionalById(@Parameter(description = "ID do profissional") @PathVariable Long id) {
 
         var professional = inboundPort.findProfessionalById(id);
         return ResponseEntity.ok(mapper.mapTo(professional, ProfessionalResponse.class));
     }
 
+    @Tag(name = "Profissionais")
     @GetMapping("/search/{fullName}")
     @Operation(summary = "Obter profissional pelos primeiros caracteres do nome")
-    public ResponseEntity<List<ProfessionalResponse>> findProfessionalByFullNameStartingWith(@PathVariable(required = false) String fullName) {
+    public ResponseEntity<List<ProfessionalResponse>> findProfessionalByFullNameStartingWith(@Parameter(description = "Nome do profissional (parcial ou completo)") @PathVariable(required = false) String fullName) {
 
         var professionals = inboundPort.findProfessionalByFullNameStartingWith(fullName);
         return professionals.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(mapper.mapToList(professionals, new TypeToken<List<ProfessionalResponse>>() {}.getType()));
     }
 
+    @Tag(name = "Profissionais")
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar os dados de um profissional")
     public ResponseEntity<ProfessionalResponse> updateProfessionalData (@Valid @PathVariable Long id, @RequestBody ProfessionalRequest professionalRequest) throws BusinessLogicException {
@@ -107,9 +122,10 @@ public class ProfessionalController {
                 : ResponseEntity.notFound().build();
     }
 
+    @Tag(name = "Profissionais")
     @DeleteMapping("/{id}")
     @Operation(summary = "Excluir os dados de um profissional")
-    public ResponseEntity<ProfessionalResponse> deleteProfessional(@PathVariable Long id) {
+    public ResponseEntity<ProfessionalResponse> deleteProfessional(@Parameter(description = "ID do profissional") @PathVariable Long id) {
 
         if (!inboundPort.professionalExists(id))
             return ResponseEntity.notFound().build();
