@@ -25,6 +25,7 @@ public class ProfessionalEntity extends UserEntity {
     @ElementCollection
     @CollectionTable(name = "professional_services")
     @Column(name = "service")
+    @Enumerated(EnumType.STRING)
     private List<ServiceEnum> offeredServices;
 
     @NotNull(message = "O campo 'consultationPrice' é obrigatório.")
