@@ -4,6 +4,7 @@ import com.ubi.beautyClinic.application.core.domain.Professional;
 import com.ubi.beautyClinic.application.core.exceptions.BusinessLogicException;
 import com.ubi.beautyClinic.application.ports.in.ProfessionalUseCaseInboundPort;
 import com.ubi.beautyClinic.application.ports.out.ProfessionalRepositoryOutboundPort;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -25,6 +26,12 @@ public class ProfessionalUseCase implements ProfessionalUseCaseInboundPort {
     public Professional registerProfessional(Professional professional) throws BusinessLogicException {
 
         return outboundPort.save(professional);
+    }
+
+    @Override
+    public UserDetails loadProfessionalByEmail(String email) {
+
+        return outboundPort.loadUserByUsername(email);
     }
 
     @Override
