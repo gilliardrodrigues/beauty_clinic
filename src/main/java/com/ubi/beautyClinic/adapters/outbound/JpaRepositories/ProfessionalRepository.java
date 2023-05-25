@@ -10,4 +10,5 @@ import java.util.List;
 public interface ProfessionalRepository extends JpaRepository<ProfessionalEntity, Long> {
 
     List<ProfessionalEntity> findByFullNameStartingWithIgnoreCase(String fullName);
+    ProfessionalEntity findByEmail(String email);
 }
