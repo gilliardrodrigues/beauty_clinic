@@ -1,5 +1,6 @@
 package com.ubi.beautyClinic.config;
 
+import com.ubi.beautyClinic.application.ports.out.PatientRepositoryOutboundPort;
 import com.ubi.beautyClinic.application.ports.out.ProfessionalRepositoryOutboundPort;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -21,6 +22,7 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final ProfessionalRepositoryOutboundPort professionalRepositoryOutboundPort;
+    private final PatientRepositoryOutboundPort patientRepositoryOutboundPort;
 
     private final JwtTokenUtil jwtTokenUtil;
 
@@ -50,11 +52,20 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // Once we get the token validate it.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = this.professionalRepositoryOutboundPort.loadUserByUsername(username);
+            UserDetails userDetails = null;
+
+            // Verifica se é um profissional
+            if (isProfessionalRequest(request)) {
+                userDetails = professionalRepositoryOutboundPort.loadUserByUsername(username);
+            }
+            // Verifica se é um paciente
+            else if (isPatientRequest(request)) {
+                userDetails = patientRepositoryOutboundPort.loadUserByUsername(username);
+            }
 
             // if token is valid configure Spring Security to manually set
             // authentication
-            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+            if (userDetails != null && jwtTokenUtil.validateToken(jwtToken, userDetails)) {
 
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
@@ -68,6 +79,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         chain.doFilter(request, response);
     }
+    // Verifica se a requisição é para um endpoint de profissional
+    private boolean isProfessionalRequest(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        return requestURI.startsWith("/professionals");
+    }
 
+    // Verifica se a requisição é para um endpoint de paciente
+    private boolean isPatientRequest(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        return requestURI.startsWith("/patients");
+    }
 }
 

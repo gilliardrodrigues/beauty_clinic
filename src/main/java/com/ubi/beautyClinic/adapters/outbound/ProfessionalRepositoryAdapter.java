@@ -11,37 +11,31 @@ import org.modelmapper.TypeToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class ProfessionalRepositoryAdapter implements ProfessionalRepositoryOutboundPort, UserDetailsService {
 
     private final ProfessionalRepository repository;
-
-    private final PasswordEncoder bcryptEncoder;
-
     private final GenericMapper mapper;
 
-    public ProfessionalRepositoryAdapter(ProfessionalRepository repository, PasswordEncoder bcryptEncoder, GenericMapper mapper) {
+    public ProfessionalRepositoryAdapter(ProfessionalRepository repository, GenericMapper mapper) {
         this.repository = repository;
-        this.bcryptEncoder = bcryptEncoder;
         this.mapper = mapper;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        var professional = repository.findByEmail(email);
-        if (professional == null) {
-            throw new UsernameNotFoundException("Professional not found with email: " + email);
-        }
-        return new org.springframework.security.core.userdetails.User(professional.getEmail(), professional.getPassword(),
-                new ArrayList<>());
+        var professionalEntity = repository.findByEmail(email);
+        return org.springframework.security.core.userdetails.User
+                .builder()
+                .username(email)
+                .password(professionalEntity.getPassword())
+                .authorities("PROFESSIONAL")
+                .build();
     }
 
     @Override
@@ -51,11 +45,15 @@ public class ProfessionalRepositoryAdapter implements ProfessionalRepositoryOutb
     }
 
     @Override
-    @Transactional
+    public Boolean professionalExists(String email) {
+
+        return repository.existsByEmail(email);
+    }
+
+    @Override
     public Professional save(Professional professional) throws BusinessLogicException {
 
         var professionalEntity =mapper.mapTo(professional, ProfessionalEntity.class);
-        professionalEntity.setPassword(bcryptEncoder.encode(professionalEntity.getPassword()));
         return mapper.mapTo(repository.save(professionalEntity), Professional.class);
     }
 
@@ -67,7 +65,6 @@ public class ProfessionalRepositoryAdapter implements ProfessionalRepositoryOutb
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
 
         repository.deleteById(id);

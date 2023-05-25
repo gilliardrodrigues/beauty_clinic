@@ -1,19 +1,24 @@
 package com.ubi.beautyClinic.config;
 
+import com.ubi.beautyClinic.adapters.outbound.PatientRepositoryAdapter;
+import com.ubi.beautyClinic.adapters.outbound.ProfessionalRepositoryAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
@@ -26,25 +31,39 @@ public class WebSecurityConfig {
     private JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private ProfessionalRepositoryAdapter professionalRepositoryAdapter;
+
+    @Autowired
+    private PatientRepositoryAdapter patientRepositoryAdapter;
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    public DaoAuthenticationProvider professionalAuthenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setUserDetailsService(professionalRepositoryAdapter);
         authProvider.setPasswordEncoder(passwordEncoder());
-
         return authProvider;
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
-        return authConfiguration.getAuthenticationManager();
+    public DaoAuthenticationProvider patientAuthenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(patientRepositoryAdapter);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        List<AuthenticationProvider> providers = new ArrayList<>();
+        providers.add(professionalAuthenticationProvider());
+        providers.add(patientAuthenticationProvider());
+
+        return new CustomAuthenticationManager(providers);
     }
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 
@@ -56,14 +75,25 @@ public class WebSecurityConfig {
                 // store user's state.
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                // dont authenticate this particular request
+                // don't authenticate this particular request
                 .authorizeHttpRequests().requestMatchers("/js/**", "/img/**", "/css/**",
-                "/professionals/authenticate", "/professionals/register", "/swagger-ui/**", "/v3/api-docs/**")
+                "/swagger-ui/**", "/v3/api-docs/**")
                 .permitAll()
+                .requestMatchers(HttpMethod.POST, "/professionals/authenticate", "/professionals/register")
+                .permitAll()
+                .requestMatchers(HttpMethod.POST, "/patients/authenticate", "/patients/register")
+                .permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/professionals/**").hasAuthority("PROFESSIONAL")
+                .requestMatchers(HttpMethod.GET, "/professionals/**").hasAuthority("PROFESSIONAL")
+                .requestMatchers(HttpMethod.PUT, "/professionals/**").hasAuthority("PROFESSIONAL")
+                .requestMatchers("/professionals/search/**").hasAuthority("PROFESSIONAL")
+                .requestMatchers(HttpMethod.DELETE, "/patients/**").hasAuthority("PATIENT")
+                .requestMatchers(HttpMethod.GET, "/patients/").hasAuthority("PATIENT")
+                .requestMatchers(HttpMethod.PUT, "/patients/").hasAuthority("PATIENT")
+                .requestMatchers("/patients/search/**").hasAuthority("PATIENT")
                 // all other requests need to be authenticated
                 .anyRequest().authenticated();
-
-        httpSecurity.authenticationProvider(authenticationProvider());
+        httpSecurity.authenticationManager(authenticationManager());
 
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

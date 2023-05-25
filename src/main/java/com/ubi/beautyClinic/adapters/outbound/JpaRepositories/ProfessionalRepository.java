@@ -11,4 +11,5 @@ public interface ProfessionalRepository extends JpaRepository<ProfessionalEntity
 
     List<ProfessionalEntity> findByFullNameStartingWithIgnoreCase(String fullName);
     ProfessionalEntity findByEmail(String email);
+    Boolean existsByEmail(String email);
 }

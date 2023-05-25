@@ -2,7 +2,6 @@ package com.ubi.beautyClinic.adapters.inbound.entities;
 
 import com.ubi.beautyClinic.application.core.domain.Gender;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
@@ -25,7 +24,7 @@ public class PatientEntity extends UserEntity {
     private OffsetDateTime birthDate;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "O campo 'gender' é obrigatório.")
+    @NotNull(message = "O campo 'gender' é obrigatório.")
     private Gender gender;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")

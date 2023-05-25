@@ -10,6 +10,7 @@ import java.util.List;
 public interface ProfessionalRepositoryOutboundPort {
 
     Boolean professionalExists(Long id);
+    Boolean professionalExists(String email);
     Professional save(Professional professional) throws BusinessLogicException;
     List<Professional> findAll();
     void delete(Long id);

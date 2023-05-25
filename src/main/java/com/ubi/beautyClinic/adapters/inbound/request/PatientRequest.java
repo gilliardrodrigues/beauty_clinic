@@ -1,44 +1,40 @@
 package com.ubi.beautyClinic.adapters.inbound.request;
 
-import com.ubi.beautyClinic.application.core.domain.ServiceEnum;
+import com.ubi.beautyClinic.application.core.domain.Gender;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import java.math.BigDecimal;
-import java.util.List;
+import java.time.OffsetDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfessionalRequest {
+public class PatientRequest {
 
     @NotBlank(message = "O nome completo é obrigatório!")
     private String fullName;
 
-    @NotBlank(message = "O e-mail é obrigatório!")
-    @Email(message = "Insira um endereço de e-mail válido!")
+    @NotBlank(message = "O email é obrigatório!")
+    @Email(message = "O campo 'email' deve ser um endereço de email válido!")
     private String email;
 
     @NotBlank(message = "A senha é obrigatória!")
     @Pattern(regexp = "^(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "A senha deve conter pelo menos 8 caracteres, um caractere especial, uma letra minúscula, uma letra maiúscula e um número.")
     private String password;
 
-    @NotBlank(message = "O resumo é obrigatório!")
-    private String summary;
+    @NotNull(message = "A data de nascimento é obrigatória!")
+    @PastOrPresent(message = "A data de nascimento não pode ser uma data futura!")
+    private OffsetDateTime birthDate;
+
+    @NotNull(message = "O gênero é obrigatório!")
+    private Gender gender;
 
     @Valid
     private AddressRequest address;
 
     @Valid
     private PhoneNumberRequest phoneNumber;
-
-    @NotEmpty(message = "A lista de serviços oferecidos não pode estar vazia!")
-    private List<ServiceEnum> offeredServices;
-
-    @NotNull(message = "O preço da consulta é obrigatório!")
-    @DecimalMin(value = "0.0", inclusive = false, message = "O preço da consulta deve ser maior que zero!")
-    private BigDecimal consultationPrice;
 
     @Getter
     @Setter
@@ -78,3 +74,4 @@ public class ProfessionalRequest {
         private String number;
     }
 }
+
