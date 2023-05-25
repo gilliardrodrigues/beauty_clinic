@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Register Page</title>
-  <link rel="stylesheet" type="text/css" href="../../static/patient/css/register.css">
+  <link rel="stylesheet" type="text/css" href="../../static/professional/css/register.css">
 </head>
 <body>
     <div class="container">
@@ -51,6 +51,19 @@
             <label for="number">Phone Number:</label>
             <input type="text" id="number" name="number" required>
           </section>
+
+          <section>
+            <h2>Business Information:</h2>
+            <label for="offeredServices">Offered Services (Multiple):</label>
+            <select id="offeredServices" name="offeredServices" multiple required>
+              <option value="Botox">Botox</option>
+              <option value="Peeling">Peeling</option>
+            </select>
+            <label for="summary">Summary:</label>
+            <input type="text" id="summary" name="summary" required>
+            <label for="consultationPrice">Consultation Price (BRL):</label>
+            <input type="number" min="0" id="consultationPrice" name="consultationPrice" required>
+          </section>
     
           <button type="submit">Register</button>
         </form>
@@ -58,6 +71,6 @@
         <p id="message"></p>
       </div>
 
-  <script src="../../static/patient/js/register.js"></script>
+  <script src="../../static/professional/js/register.js"></script>
 </body>
 </html>

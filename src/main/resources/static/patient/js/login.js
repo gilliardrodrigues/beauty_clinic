@@ -5,8 +5,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     var password = document.getElementById("password").value;
   
     // Make a request to the external API for authentication
-    // Replace 'external-api-url' with the actual URL of the API
-    fetch('external-api-url/login', {
+    fetch('patients/authenticate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -17,9 +17,12 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     var areaCode = document.getElementById("areaCode").value;
     var number = document.getElementById("number").value;
 
+    var summary = document.getElementById("summary").value;
+    var offeredServices = document.getElementById("offeredServices").value;
+    var consultationPrice = document.getElementById("consultationPrice").value;
   
     // Make a request to the external API for authentication
-    fetch('patients/register', {
+    fetch('professional/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -42,7 +45,10 @@ document.getElementById("registerForm").addEventListener("submit", function(even
             countryCode: countryCode,
             areaCode: areaCode,
             number: number
-        }
+        },
+        consultationPrice: consultationPrice,
+        summary: summary,
+        offeredServices: offeredServices
       })
     })
     .then(function(response) {
