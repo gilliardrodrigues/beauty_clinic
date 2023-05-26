@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -67,7 +66,6 @@ public class PatientRepositoryAdapter implements PatientRepositoryOutboundPort, 
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
 
         repository.deleteById(id);
@@ -79,6 +77,13 @@ public class PatientRepositoryAdapter implements PatientRepositoryOutboundPort, 
         var patientEntity = repository.findById(id);
         return patientEntity.map(entity -> mapper.mapTo(entity, Patient.class))
                 .orElseThrow(() -> new ObjectNotFoundException("Paciente não encontrado!"));
+    }
+
+    @Override
+    public Patient findByEmail(String email) {
+
+        var patientEntity = repository.findByEmail(email);
+        return mapper.mapTo(patientEntity, Patient.class);
     }
 
     @Override

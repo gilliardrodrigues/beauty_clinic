@@ -17,6 +17,7 @@ import java.util.Objects;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "PATIENT")
 public class PatientEntity extends UserEntity {
 
     @NotNull(message = "O campo 'birthDate' é obrigatório.")

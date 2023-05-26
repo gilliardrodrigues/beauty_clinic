@@ -81,6 +81,13 @@ public class ProfessionalRepositoryAdapter implements ProfessionalRepositoryOutb
     }
 
     @Override
+    public Professional findByEmail(String email) {
+
+        var professionalEntity = repository.findByEmail(email);
+        return mapper.mapTo(professionalEntity, Professional.class);
+    }
+
+    @Override
     public List<Professional> findByFullNameStartingWith(String name) {
 
         var professionals = repository.findByFullNameStartingWithIgnoreCase(name);

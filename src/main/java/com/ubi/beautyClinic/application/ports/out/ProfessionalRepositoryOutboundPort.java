@@ -16,6 +16,7 @@ public interface ProfessionalRepositoryOutboundPort {
     List<Professional> findAll();
     void delete(Long id);
     Professional findById(Long id);
+    Professional findByEmail(String email);
     UserDetails loadUserByUsername(String email) throws UsernameNotFoundException;
     List<Professional> findByFullNameStartingWith(String name);
     List<Professional> findByService(ServiceEnum service);

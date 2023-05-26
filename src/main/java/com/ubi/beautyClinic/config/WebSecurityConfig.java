@@ -79,7 +79,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests().requestMatchers("/js/**", "/img/**", "/css/**",
                 "/swagger-ui/**", "/v3/api-docs/**")
                 .permitAll()
-                .requestMatchers(HttpMethod.GET,"/professionals/search-by-service/**").hasAnyAuthority("PATIENT", "PROFESSIONAL")
+                .requestMatchers(HttpMethod.GET,"/professionals/search/by-service/**").hasAnyAuthority("PATIENT", "PROFESSIONAL")
                 .requestMatchers(HttpMethod.POST, "/professionals/authenticate", "/professionals/register")
                 .permitAll()
                 .requestMatchers(HttpMethod.POST, "/patients/authenticate", "/patients/register")
@@ -88,9 +88,13 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/professionals/**").hasAuthority("PROFESSIONAL")
                 .requestMatchers(HttpMethod.PUT, "/professionals/**").hasAuthority("PROFESSIONAL")
                 .requestMatchers(HttpMethod.DELETE, "/patients/**").hasAuthority("PATIENT")
-                .requestMatchers(HttpMethod.GET, "/patients/").hasAuthority("PATIENT")
-                .requestMatchers(HttpMethod.PUT, "/patients/").hasAuthority("PATIENT")
+                .requestMatchers(HttpMethod.GET, "/patients/**").hasAuthority("PATIENT")
+                .requestMatchers(HttpMethod.PUT, "/patients/**").hasAuthority("PATIENT")
                 .requestMatchers("/patients/search/**").hasAuthority("PATIENT")
+                .requestMatchers(HttpMethod.POST, "/appointments/**").hasAuthority("PATIENT")
+                .requestMatchers(HttpMethod.DELETE, "/appointments/**").hasAnyAuthority("PATIENT", "PROFESSIONAL")
+                .requestMatchers(HttpMethod.GET, "/appointments/**").hasAnyAuthority("PATIENT", "PROFESSIONAL")
+                .requestMatchers(HttpMethod.PUT, "/appointments/**").hasAuthority("PROFESSIONAL")
                 // all other requests need to be authenticated
                 .anyRequest().authenticated();
         httpSecurity.authenticationManager(authenticationManager());

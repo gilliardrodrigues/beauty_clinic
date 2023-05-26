@@ -16,6 +16,7 @@ import java.util.Objects;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "APPOINTMENT")
 public class AppointmentEntity {
 
     @Id
@@ -27,14 +28,15 @@ public class AppointmentEntity {
     private OffsetDateTime dateTime;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "O campo 'status' é obrigatório.")
+    @NotNull(message = "O campo 'status' é obrigatório.")
     private Status status;
 
-    @NotBlank(message = "O campo 'service' é obrigatório.")
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "O campo 'service' é obrigatório.")
     private ServiceEnum service;
 
-    @Min(value = 1, message = "O valor da avaliação não pode ser menor que 1.")
-    @Max(value = 5, message = "O valor da avaliação não pode ser maior que 5.")
+    //@Min(value = 1, message = "O valor da avaliação não pode ser menor que 1.")
+    //@Max(value = 5, message = "O valor da avaliação não pode ser maior que 5.")
     private Integer rating;
 
     @ManyToOne

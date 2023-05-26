@@ -49,6 +49,7 @@ public class PatientUseCase implements PatientUseCaseInboundPort {
     }
 
     @Override
+    @Transactional
     public Patient updatePatientData(Patient patient) throws BusinessLogicException {
 
         if (!outboundPort.patientExists(patient.getId()))

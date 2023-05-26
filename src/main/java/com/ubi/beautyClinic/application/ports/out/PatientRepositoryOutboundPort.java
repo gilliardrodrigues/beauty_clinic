@@ -15,6 +15,7 @@ public interface PatientRepositoryOutboundPort {
     List<Patient> findAll();
     void delete(Long id);
     Patient findById(Long id);
+    Patient findByEmail(String email);
     UserDetails loadUserByUsername(String email) throws UsernameNotFoundException;
     List<Patient> findByFullNameStartingWith(String name);
 }

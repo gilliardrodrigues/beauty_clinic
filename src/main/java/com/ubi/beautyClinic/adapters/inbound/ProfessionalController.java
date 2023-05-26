@@ -85,7 +85,7 @@ public class ProfessionalController {
     }
 
     @Tag(name = "Profissionais")
-    @GetMapping("/search-by-service/{service}")
+    @GetMapping("/filter/by-service/{service}")
     @Operation(summary = "Listar profissionais por serviço")
     public ResponseEntity<List<ProfessionalResponse>> listProfessionalsByService(@Parameter(description = "Serviço desejado") @PathVariable ServiceEnum service) {
 
@@ -112,7 +112,7 @@ public class ProfessionalController {
     }
 
     @Tag(name = "Profissionais")
-    @GetMapping("/search-by-name/{fullName}")
+    @GetMapping("/search/by-name/{fullName}")
     @Operation(summary = "Obter profissional pelos primeiros caracteres do nome")
     public ResponseEntity<List<ProfessionalResponse>> findProfessionalByFullNameStartingWith(@Parameter(description = "Nome do profissional (parcial ou completo)") @PathVariable String fullName) {
 

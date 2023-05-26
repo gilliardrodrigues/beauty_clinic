@@ -2,10 +2,10 @@ package com.ubi.beautyClinic.application.core.domain;
 
 public enum Status {
 
-    SOLICITADO("Solicitado"),
-    RECUSADO("Recusado"),
-    A_REALIZAR("A realizar"),
-    REALIZADO("Realizado");
+    REQUESTED("Solicitada"),
+    REFUSED("Recusada"),
+    TO_ACCOMPLISH("A realizar"),
+    ACCOMPLISHED("Realizada");
 
     private final String description;
 

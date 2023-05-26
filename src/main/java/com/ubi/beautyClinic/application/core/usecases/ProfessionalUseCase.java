@@ -51,6 +51,7 @@ public class ProfessionalUseCase implements ProfessionalUseCaseInboundPort {
     }
 
     @Override
+    @Transactional
     public Professional updateProfessionalData(Professional professional) throws BusinessLogicException {
 
         if (!outboundPort.professionalExists(professional.getId()))

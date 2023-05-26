@@ -17,6 +17,7 @@ import java.util.Objects;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "PROFESSIONAL")
 public class ProfessionalEntity extends UserEntity {
 
     @NotBlank(message = "O campo 'summary' é obrigatório.")
