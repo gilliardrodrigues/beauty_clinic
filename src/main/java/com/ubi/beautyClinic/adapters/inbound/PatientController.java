@@ -55,7 +55,7 @@ public class PatientController {
 
         authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
         final UserDetails userDetails = inboundPort.loadPatientByEmail(authenticationRequest.getEmail());
-        final String token = jwtTokenUtil.generateToken(userDetails);
+        final String token = jwtTokenUtil.generateToken(userDetails, "PATIENT");
 
         return ResponseEntity.ok(new JwtResponse(token));
     }

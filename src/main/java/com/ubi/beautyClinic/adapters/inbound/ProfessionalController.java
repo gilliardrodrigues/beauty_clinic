@@ -6,6 +6,7 @@ import com.ubi.beautyClinic.adapters.inbound.request.ProfessionalRequest;
 import com.ubi.beautyClinic.adapters.inbound.response.JwtResponse;
 import com.ubi.beautyClinic.adapters.inbound.response.ProfessionalResponse;
 import com.ubi.beautyClinic.application.core.domain.Professional;
+import com.ubi.beautyClinic.application.core.domain.ServiceEnum;
 import com.ubi.beautyClinic.application.core.exceptions.BusinessLogicException;
 import com.ubi.beautyClinic.application.ports.in.ProfessionalUseCaseInboundPort;
 import com.ubi.beautyClinic.config.JwtTokenUtil;
@@ -50,14 +51,14 @@ public class ProfessionalController {
 
     @Tag(name = "Profissionais")
     @Operation(summary = "Autenticação de profissional")
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
 
         final UserDetails userDetails = inboundPort.loadProfessionalByEmail(authenticationRequest.getEmail());
 
-        final String token = jwtTokenUtil.generateToken(userDetails);
+        final String token = jwtTokenUtil.generateToken(userDetails, "PROFESSIONAL");
 
         return ResponseEntity.ok(new JwtResponse(token));
     }
@@ -84,6 +85,15 @@ public class ProfessionalController {
     }
 
     @Tag(name = "Profissionais")
+    @GetMapping("/search-by-service/{service}")
+    @Operation(summary = "Listar profissionais por serviço")
+    public ResponseEntity<List<ProfessionalResponse>> listProfessionalsByService(@Parameter(description = "Serviço desejado") @PathVariable ServiceEnum service) {
+
+        var professionals = inboundPort.findProfessionalsByService(service);
+        return professionals.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(mapper.mapToList(professionals, new TypeToken<List<ProfessionalResponse>>() {}.getType()));
+    }
+
+    @Tag(name = "Profissionais")
     @GetMapping
     @Operation(summary = "Obter todos os profissionais")
     public ResponseEntity<List<ProfessionalResponse>> listAll() {
@@ -102,9 +112,9 @@ public class ProfessionalController {
     }
 
     @Tag(name = "Profissionais")
-    @GetMapping("/search/{fullName}")
+    @GetMapping("/search-by-name/{fullName}")
     @Operation(summary = "Obter profissional pelos primeiros caracteres do nome")
-    public ResponseEntity<List<ProfessionalResponse>> findProfessionalByFullNameStartingWith(@Parameter(description = "Nome do profissional (parcial ou completo)") @PathVariable(required = false) String fullName) {
+    public ResponseEntity<List<ProfessionalResponse>> findProfessionalByFullNameStartingWith(@Parameter(description = "Nome do profissional (parcial ou completo)") @PathVariable String fullName) {
 
         var professionals = inboundPort.findProfessionalByFullNameStartingWith(fullName);
         return professionals.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(mapper.mapToList(professionals, new TypeToken<List<ProfessionalResponse>>() {}.getType()));

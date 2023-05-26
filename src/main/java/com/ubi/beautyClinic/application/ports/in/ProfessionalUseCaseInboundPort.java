@@ -1,6 +1,7 @@
 package com.ubi.beautyClinic.application.ports.in;
 
 import com.ubi.beautyClinic.application.core.domain.Professional;
+import com.ubi.beautyClinic.application.core.domain.ServiceEnum;
 import com.ubi.beautyClinic.application.core.exceptions.BusinessLogicException;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,4 +17,5 @@ public interface ProfessionalUseCaseInboundPort {
     void deleteProfessionalById(Long id);
     Professional findProfessionalById(Long id);
     List<Professional> findProfessionalByFullNameStartingWith(String name);
+    List<Professional> findProfessionalsByService(ServiceEnum service);
 }

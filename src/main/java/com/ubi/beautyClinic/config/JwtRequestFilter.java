@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -79,16 +80,27 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         chain.doFilter(request, response);
     }
-    // Verifica se a requisição é para um endpoint de profissional
-    private boolean isProfessionalRequest(HttpServletRequest request) {
-        String requestURI = request.getRequestURI();
-        return requestURI.startsWith("/professionals");
+    private String getUserTypeFromToken(HttpServletRequest request) {
+        String token = extractTokenFromRequest(request);
+        return jwtTokenUtil.getUserTypeFromToken(token);
     }
 
-    // Verifica se a requisição é para um endpoint de paciente
+    private String extractTokenFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+    // Verifica se a requisição é para um endpoint de profissional
+    private boolean isProfessionalRequest(HttpServletRequest request) {
+        String userType = getUserTypeFromToken(request);
+        return "PROFESSIONAL".equals(userType);
+    }
+
     private boolean isPatientRequest(HttpServletRequest request) {
-        String requestURI = request.getRequestURI();
-        return requestURI.startsWith("/patients");
+        String userType = getUserTypeFromToken(request);
+        return "PATIENT".equals(userType);
     }
 }
 

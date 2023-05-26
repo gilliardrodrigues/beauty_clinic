@@ -1,6 +1,5 @@
 package com.ubi.beautyClinic.adapters.inbound.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ubi.beautyClinic.application.core.domain.Address;
 import com.ubi.beautyClinic.application.core.domain.PhoneNumber;
 import jakarta.persistence.*;
@@ -32,7 +31,6 @@ public abstract class UserEntity {
     @Email(message = "O campo 'email' deve ser um endereço de email válido.")
     private String email;
 
-    @JsonIgnore
     @Pattern(regexp = "^(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "A senha deve conter pelo menos 8 caracteres, um caractere especial, uma letra minúscula, uma letra maiúscula e um número.")
     private String password;
 

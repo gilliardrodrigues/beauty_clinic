@@ -4,6 +4,7 @@ import com.ubi.beautyClinic.adapters.inbound.entities.ProfessionalEntity;
 import com.ubi.beautyClinic.adapters.inbound.mappers.GenericMapper;
 import com.ubi.beautyClinic.adapters.outbound.JpaRepositories.ProfessionalRepository;
 import com.ubi.beautyClinic.application.core.domain.Professional;
+import com.ubi.beautyClinic.application.core.domain.ServiceEnum;
 import com.ubi.beautyClinic.application.core.exceptions.BusinessLogicException;
 import com.ubi.beautyClinic.application.core.exceptions.ObjectNotFoundException;
 import com.ubi.beautyClinic.application.ports.out.ProfessionalRepositoryOutboundPort;
@@ -30,6 +31,7 @@ public class ProfessionalRepositoryAdapter implements ProfessionalRepositoryOutb
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         var professionalEntity = repository.findByEmail(email);
+
         return org.springframework.security.core.userdetails.User
                 .builder()
                 .username(email)
@@ -82,6 +84,13 @@ public class ProfessionalRepositoryAdapter implements ProfessionalRepositoryOutb
     public List<Professional> findByFullNameStartingWith(String name) {
 
         var professionals = repository.findByFullNameStartingWithIgnoreCase(name);
+        return mapper.mapToList(professionals, new TypeToken<List<Professional>>() {}.getType());
+    }
+
+    @Override
+    public List<Professional> findByService(ServiceEnum service) {
+
+        var professionals = repository.findByService(service);
         return mapper.mapToList(professionals, new TypeToken<List<Professional>>() {}.getType());
     }
 }

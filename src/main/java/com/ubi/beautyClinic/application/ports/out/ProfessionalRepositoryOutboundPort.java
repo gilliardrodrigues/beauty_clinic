@@ -1,6 +1,7 @@
 package com.ubi.beautyClinic.application.ports.out;
 
 import com.ubi.beautyClinic.application.core.domain.Professional;
+import com.ubi.beautyClinic.application.core.domain.ServiceEnum;
 import com.ubi.beautyClinic.application.core.exceptions.BusinessLogicException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,4 +18,5 @@ public interface ProfessionalRepositoryOutboundPort {
     Professional findById(Long id);
     UserDetails loadUserByUsername(String email) throws UsernameNotFoundException;
     List<Professional> findByFullNameStartingWith(String name);
+    List<Professional> findByService(ServiceEnum service);
 }

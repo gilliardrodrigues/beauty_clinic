@@ -79,6 +79,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests().requestMatchers("/js/**", "/img/**", "/css/**",
                 "/swagger-ui/**", "/v3/api-docs/**")
                 .permitAll()
+                .requestMatchers(HttpMethod.GET,"/professionals/search-by-service/**").hasAnyAuthority("PATIENT", "PROFESSIONAL")
                 .requestMatchers(HttpMethod.POST, "/professionals/authenticate", "/professionals/register")
                 .permitAll()
                 .requestMatchers(HttpMethod.POST, "/patients/authenticate", "/patients/register")
@@ -86,7 +87,6 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/professionals/**").hasAuthority("PROFESSIONAL")
                 .requestMatchers(HttpMethod.GET, "/professionals/**").hasAuthority("PROFESSIONAL")
                 .requestMatchers(HttpMethod.PUT, "/professionals/**").hasAuthority("PROFESSIONAL")
-                .requestMatchers("/professionals/search/**").hasAuthority("PROFESSIONAL")
                 .requestMatchers(HttpMethod.DELETE, "/patients/**").hasAuthority("PATIENT")
                 .requestMatchers(HttpMethod.GET, "/patients/").hasAuthority("PATIENT")
                 .requestMatchers(HttpMethod.PUT, "/patients/").hasAuthority("PATIENT")

@@ -1,6 +1,7 @@
 package com.ubi.beautyClinic.application.core.usecases;
 
 import com.ubi.beautyClinic.application.core.domain.Professional;
+import com.ubi.beautyClinic.application.core.domain.ServiceEnum;
 import com.ubi.beautyClinic.application.core.exceptions.BusinessLogicException;
 import com.ubi.beautyClinic.application.core.exceptions.UserAlreadyExistsException;
 import com.ubi.beautyClinic.application.ports.in.ProfessionalUseCaseInboundPort;
@@ -81,5 +82,11 @@ public class ProfessionalUseCase implements ProfessionalUseCaseInboundPort {
     public List<Professional> findProfessionalByFullNameStartingWith(String name) {
 
         return outboundPort.findByFullNameStartingWith(name);
+    }
+
+    @Override
+    public List<Professional> findProfessionalsByService(ServiceEnum service) {
+
+        return outboundPort.findByService(service);
     }
 }
