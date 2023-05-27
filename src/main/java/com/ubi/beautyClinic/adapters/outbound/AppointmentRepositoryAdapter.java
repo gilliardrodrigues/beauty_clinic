@@ -51,7 +51,7 @@ public class AppointmentRepositoryAdapter implements AppointmentRepositoryOutbou
 
         var appointmentEntity = repository.findById(id);
         return appointmentEntity.map(entity -> mapper.mapTo(entity, Appointment.class))
-                .orElseThrow(() -> new ObjectNotFoundException("Agendamento não encontrado!"));
+                .orElseThrow(() -> new ObjectNotFoundException("Appointment not found!"));
     }
 
     @Override

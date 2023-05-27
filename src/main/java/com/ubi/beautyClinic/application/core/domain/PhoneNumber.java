@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PhoneNumber {
 
-    @NotBlank(message = "O campo 'countryCode' é obrigatório.")
-    @Pattern(regexp = "\\+[0-9]+", message = "O campo 'countryCode' deve estar no formato '+123'.")
+    @NotBlank(message = "Country code is required!")
+    @Pattern(regexp = "\\+[0-9]+", message = "The 'countryCode' field must be in the format '+123'!")
     private String countryCode;
 
-    @Pattern(regexp = "[0-9]*", message = "O campo 'areaCode' deve conter apenas números.")
+    @Pattern(regexp = "[0-9]*", message = "The 'areaCode' field must only contain numbers!")
     private String areaCode;
 
-    @NotBlank(message = "O campo 'number' é obrigatório.")
-    @Pattern(regexp = "[0-9]+", message = "O campo 'number' deve ser numérico.")
+    @NotBlank(message = "Phone number is required!")
+    @Pattern(regexp = "[0-9]+", message = "The number cannot contain non-numeric characters!")
     private String number;
 }

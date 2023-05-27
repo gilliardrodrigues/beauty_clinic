@@ -20,12 +20,12 @@ import java.util.Objects;
 @Table(name = "PATIENT")
 public class PatientEntity extends UserEntity {
 
-    @NotNull(message = "O campo 'birthDate' é obrigatório.")
-    @PastOrPresent(message = "A data de nascimento não pode ser uma data futura.")
+    @NotNull(message = "Date of birth is required!")
+    @PastOrPresent(message = "Date of birth cannot be a date in the future!")
     private OffsetDateTime birthDate;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "O campo 'gender' é obrigatório.")
+    @NotNull(message = "Gender is required!")
     private Gender gender;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")

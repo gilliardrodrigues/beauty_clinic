@@ -14,22 +14,22 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 public class PatientRequest {
 
-    @NotBlank(message = "O nome completo é obrigatório!")
+    @NotBlank(message = "Full name is required!")
     private String fullName;
 
-    @NotBlank(message = "O email é obrigatório!")
-    @Email(message = "O campo 'email' deve ser um endereço de email válido!")
+    @NotBlank(message = "Email is required!")
+    @Email(message = "The 'email' field must be a valid email address!")
     private String email;
 
-    @NotBlank(message = "A senha é obrigatória!")
-    @Pattern(regexp = "^(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "A senha deve conter pelo menos 8 caracteres, um caractere especial, uma letra minúscula, uma letra maiúscula e um número.")
+    @NotBlank(message = "Password is required!")
+    @Pattern(regexp = "^(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "The password must contain at least 8 characters, one special character, one lowercase letter, one uppercase letter and one number.")
     private String password;
 
-    @NotNull(message = "A data de nascimento é obrigatória!")
-    @PastOrPresent(message = "A data de nascimento não pode ser uma data futura!")
+    @NotNull(message = "Date of birth is required!")
+    @PastOrPresent(message = "Date of birth cannot be a date in the future!")
     private OffsetDateTime birthDate;
 
-    @NotNull(message = "O gênero é obrigatório!")
+    @NotNull(message = "Gender is required!")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -43,37 +43,37 @@ public class PatientRequest {
     @Setter
     public static class AddressRequest {
 
-        @NotBlank(message = "A rua é obrigatória!")
+        @NotBlank(message = "The street is required!")
         private String street;
 
         @NotBlank(message = "O número da residência é obrigatório!")
         private String houseNumber;
 
-        @NotBlank(message = "O bairro é obrigatório!")
+        @NotBlank(message = "House number is required!")
         private String neighborhood;
 
-        @NotBlank(message = "A cidade é obrigatória!")
+        @NotBlank(message = "The city is required!")
         private String city;
 
-        @NotBlank(message = "O estado é obrigatório!")
+        @NotBlank(message = "Status is required!")
         private String state;
 
-        @NotBlank(message = "O país é obrigatório!")
+        @NotBlank(message = "Country is required!")
         private String country;
     }
     @Getter
     @Setter
     public static class PhoneNumberRequest {
 
-        @NotBlank(message = "O código do país é obrigatório!")
-        @Pattern(regexp = "\\+[0-9]+", message = "O campo 'countryCode' deve estar no formato '+123'!")
+        @NotBlank(message = "Country code is required!")
+        @Pattern(regexp = "\\+[0-9]+", message = "The 'countryCode' field must be in the format '+123'!")
         private String countryCode;
 
-        @Pattern(regexp = "[0-9]*", message = "O campo 'areaCode' deve conter apenas números!")
+        @Pattern(regexp = "[0-9]*", message = "The 'areaCode' field must only contain numbers!")
         private String areaCode;
 
-        @NotBlank(message = "O número de telefone é obrigatório!")
-        @Pattern(regexp = "[0-9]+", message = "O número não pode conter caracteres que não sejam numéricos!")
+        @NotBlank(message = "Phone number is required!")
+        @Pattern(regexp = "[0-9]+", message = "The number cannot contain non-numeric characters!")
         private String number;
     }
 }

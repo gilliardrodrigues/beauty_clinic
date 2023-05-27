@@ -2,7 +2,9 @@ package com.ubi.beautyClinic.adapters.inbound.entities;
 
 import com.ubi.beautyClinic.application.core.domain.ServiceEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -20,16 +22,18 @@ import java.util.Objects;
 @Table(name = "PROFESSIONAL")
 public class ProfessionalEntity extends UserEntity {
 
-    @NotBlank(message = "O campo 'summary' é obrigatório.")
+    @NotBlank(message = "Summary is required!")
     private String summary;
 
     @ElementCollection
     @CollectionTable(name = "professional_services")
     @Column(name = "service")
     @Enumerated(EnumType.STRING)
+    @NotEmpty(message = "The list of services offered cannot be empty!")
     private List<ServiceEnum> offeredServices;
 
-    @NotNull(message = "O campo 'consultationPrice' é obrigatório.")
+    @NotNull(message = "Consultation price is required!")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The consultation price must be greater than zero!")
     private BigDecimal consultationPrice;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "professional")

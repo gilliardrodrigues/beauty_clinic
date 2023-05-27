@@ -40,7 +40,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         var error = new Error();
         error.setStatus(status.value());
         error.setDateTime(OffsetDateTime.now());
-        error.setTitle("Erro: um ou mais campos incorretos!");
+        error.setTitle("Error: one or more fields are incorrect!");
         error.setFields(returnErrorList(exception));
 
         return error;
@@ -92,7 +92,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         Error error = new Error();
         error.setStatus(HttpStatus.BAD_REQUEST.value());
         error.setDateTime(OffsetDateTime.now());
-        error.setTitle("Erro de validação");
+        error.setTitle("Validation error!");
         error.setFields(errorFields);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);

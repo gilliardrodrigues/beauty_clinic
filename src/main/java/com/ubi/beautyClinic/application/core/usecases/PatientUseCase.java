@@ -33,7 +33,7 @@ public class PatientUseCase implements PatientUseCaseInboundPort {
     public Patient registerPatient(Patient patient) throws BusinessLogicException {
 
         if (outboundPort.patientExists(patient.getEmail()))
-            throw new UserAlreadyExistsException("Já existe um cadastro de paciente com este e-mail!");
+            throw new UserAlreadyExistsException("A patient record with this email already exists!");
         patient.setPassword(bcryptEncoder.encode(patient.getPassword()));
 
         return outboundPort.save(patient);
@@ -43,7 +43,7 @@ public class PatientUseCase implements PatientUseCaseInboundPort {
     public UserDetails loadPatientByEmail(String email) {
 
         if (!outboundPort.patientExists(email))
-            throw new UsernameNotFoundException("Paciente não encontrado com email: " + email);
+            throw new UsernameNotFoundException("Patient not found with email: " + email);
 
         return outboundPort.loadUserByUsername(email);
     }
@@ -53,7 +53,7 @@ public class PatientUseCase implements PatientUseCaseInboundPort {
     public Patient updatePatientData(Patient patient) throws BusinessLogicException {
 
         if (!outboundPort.patientExists(patient.getId()))
-            throw new UsernameNotFoundException("Paciente não encontrado!");
+            throw new UsernameNotFoundException("Patient not found!");
 
         return outboundPort.save(patient);
     }

@@ -66,7 +66,7 @@ public class AppointmentUseCase implements AppointmentUseCaseInboundPort {
         var professional = professionalRepositoryOutboundPort.findById(appointment.getProfessional().getId());
 
         if(!professional.getOfferedServices().contains(appointment.getService()))
-            throw new BusinessLogicException("O profissional selecionado não oferece esse serviço!");
+            throw new BusinessLogicException("The selected professional does not offer this service!");
 
         appointment.setProfessional(professional);
         appointment.setPatient(loggedPatient);

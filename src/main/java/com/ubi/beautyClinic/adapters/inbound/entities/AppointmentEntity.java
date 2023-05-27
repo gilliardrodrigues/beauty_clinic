@@ -23,16 +23,16 @@ public class AppointmentEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull(message = "O campo 'dateTime' é obrigatório.")
-    @Future(message = "A data deve estar no futuro.")
+    @NotNull(message = "The date and time are required!")
+    @Future(message = "The date must be in the future!")
     private OffsetDateTime dateTime;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "O campo 'status' é obrigatório.")
+    @NotNull(message = "Status is required!")
     private Status status;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "O campo 'service' é obrigatório.")
+    @NotNull(message = "Service is required!")
     private ServiceEnum service;
 
     //@Min(value = 1, message = "O valor da avaliação não pode ser menor que 1.")

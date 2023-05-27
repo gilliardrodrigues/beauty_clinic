@@ -76,7 +76,7 @@ public class PatientRepositoryAdapter implements PatientRepositoryOutboundPort, 
 
         var patientEntity = repository.findById(id);
         return patientEntity.map(entity -> mapper.mapTo(entity, Patient.class))
-                .orElseThrow(() -> new ObjectNotFoundException("Paciente não encontrado!"));
+                .orElseThrow(() -> new ObjectNotFoundException("Patient not found!"));
     }
 
     @Override

@@ -25,13 +25,15 @@ public abstract class UserEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message = "O campo 'fullName' é obrigatório.")
+    @NotBlank(message = "Full name is required!")
     private String fullName;
 
-    @Email(message = "O campo 'email' deve ser um endereço de email válido.")
+    @NotBlank(message = "Email is required!")
+    @Email(message = "The 'email' field must be a valid email address!")
     private String email;
 
-    @Pattern(regexp = "^(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "A senha deve conter pelo menos 8 caracteres, um caractere especial, uma letra minúscula, uma letra maiúscula e um número.")
+    @NotBlank(message = "Password is required!")
+    @Pattern(regexp = "^(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "The password must contain at least 8 characters, one special character, one lowercase letter, one uppercase letter and one number.")
     private String password;
 
     @Valid

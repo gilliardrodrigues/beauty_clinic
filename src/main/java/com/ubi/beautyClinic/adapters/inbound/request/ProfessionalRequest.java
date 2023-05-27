@@ -15,18 +15,18 @@ import java.util.List;
 @NoArgsConstructor
 public class ProfessionalRequest {
 
-    @NotBlank(message = "O nome completo é obrigatório!")
+    @NotBlank(message = "Full name is required!")
     private String fullName;
 
-    @NotBlank(message = "O e-mail é obrigatório!")
-    @Email(message = "Insira um endereço de e-mail válido!")
+    @NotBlank(message = "Email is required!")
+    @Email(message = "The 'email' field must be a valid email address!")
     private String email;
 
-    @NotBlank(message = "A senha é obrigatória!")
-    @Pattern(regexp = "^(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "A senha deve conter pelo menos 8 caracteres, um caractere especial, uma letra minúscula, uma letra maiúscula e um número.")
+    @NotBlank(message = "Password is required!")
+    @Pattern(regexp = "^(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "The password must contain at least 8 characters, one special character, one lowercase letter, one uppercase letter and one number.")
     private String password;
 
-    @NotBlank(message = "O resumo é obrigatório!")
+    @NotBlank(message = "Summary is required!")
     private String summary;
 
     @Valid
@@ -35,49 +35,49 @@ public class ProfessionalRequest {
     @Valid
     private PhoneNumberRequest phoneNumber;
 
-    @NotEmpty(message = "A lista de serviços oferecidos não pode estar vazia!")
+    @NotEmpty(message = "The list of services offered cannot be empty!")
     @Enumerated(EnumType.STRING)
     private List<ServiceEnum> offeredServices;
 
-    @NotNull(message = "O preço da consulta é obrigatório!")
-    @DecimalMin(value = "0.0", inclusive = false, message = "O preço da consulta deve ser maior que zero!")
+    @NotNull(message = "Consultation price is required!")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The consultation price must be greater than zero!")
     private BigDecimal consultationPrice;
 
     @Getter
     @Setter
     public static class AddressRequest {
 
-        @NotBlank(message = "A rua é obrigatória!")
+        @NotBlank(message = "The street is required!")
         private String street;
 
         @NotBlank(message = "O número da residência é obrigatório!")
         private String houseNumber;
 
-        @NotBlank(message = "O bairro é obrigatório!")
+        @NotBlank(message = "House number is required!")
         private String neighborhood;
 
-        @NotBlank(message = "A cidade é obrigatória!")
+        @NotBlank(message = "The city is required!")
         private String city;
 
-        @NotBlank(message = "O estado é obrigatório!")
+        @NotBlank(message = "Status is required!")
         private String state;
 
-        @NotBlank(message = "O país é obrigatório!")
+        @NotBlank(message = "Country is required!")
         private String country;
     }
     @Getter
     @Setter
     public static class PhoneNumberRequest {
 
-        @NotBlank(message = "O código do país é obrigatório!")
-        @Pattern(regexp = "\\+[0-9]+", message = "O campo 'countryCode' deve estar no formato '+123'!")
+        @NotBlank(message = "Country code is required!")
+        @Pattern(regexp = "\\+[0-9]+", message = "The 'countryCode' field must be in the format '+123'!")
         private String countryCode;
 
-        @Pattern(regexp = "[0-9]*", message = "O campo 'areaCode' deve conter apenas números!")
+        @Pattern(regexp = "[0-9]*", message = "The 'areaCode' field must only contain numbers!")
         private String areaCode;
 
-        @NotBlank(message = "O número de telefone é obrigatório!")
-        @Pattern(regexp = "[0-9]+", message = "O número não pode conter caracteres que não sejam numéricos!")
+        @NotBlank(message = "Phone number is required!")
+        @Pattern(regexp = "[0-9]+", message = "The number cannot contain non-numeric characters!")
         private String number;
     }
 }

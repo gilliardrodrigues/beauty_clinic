@@ -35,7 +35,7 @@ public class ProfessionalUseCase implements ProfessionalUseCaseInboundPort {
     public Professional registerProfessional(Professional professional) throws BusinessLogicException {
 
         if (outboundPort.professionalExists(professional.getEmail()))
-            throw new UserAlreadyExistsException("Já existe um cadastro de profissional com este e-mail!");
+            throw new UserAlreadyExistsException("A professional registration with this email already exists!");
         professional.setPassword(bcryptEncoder.encode(professional.getPassword()));
 
         return outboundPort.save(professional);
@@ -45,7 +45,7 @@ public class ProfessionalUseCase implements ProfessionalUseCaseInboundPort {
     public UserDetails loadProfessionalByEmail(String email) {
 
         if (!outboundPort.professionalExists(email))
-            throw new UsernameNotFoundException("Professional não encontrado com email: " + email);
+            throw new UsernameNotFoundException("Professional not found with email:" + email);
 
         return outboundPort.loadUserByUsername(email);
     }
@@ -55,7 +55,7 @@ public class ProfessionalUseCase implements ProfessionalUseCaseInboundPort {
     public Professional updateProfessionalData(Professional professional) throws BusinessLogicException {
 
         if (!outboundPort.professionalExists(professional.getId()))
-            throw new UsernameNotFoundException("Professional não encontrado!");
+            throw new UsernameNotFoundException("Professional not found!");
 
         return outboundPort.save(professional);
     }

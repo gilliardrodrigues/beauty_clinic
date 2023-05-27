@@ -16,14 +16,14 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 public class AppointmentRequest {
 
-    @NotNull(message = "O profissional é obrigatório!")
+    @NotNull(message = "Professional is required!")
     private Long professionalId;
 
-    @NotNull(message = "A data e o horário são obrigatórios!")
-    @Future(message = "A data deve estar no futuro!")
+    @NotNull(message = "The date and time are required!")
+    @Future(message = "The date must be in the future!")
     private OffsetDateTime dateTime;
 
-    @NotNull(message = "O serviço é obrigatório!")
+    @NotNull(message = "Service is required!")
     @Enumerated(EnumType.STRING)
     private ServiceEnum service;
 }

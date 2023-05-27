@@ -12,21 +12,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Address {
 
-    @NotBlank(message = "O campo 'street' é obrigatório.")
+    @NotBlank(message = "The street is required!")
     private String street;
 
-    @NotBlank(message = "O campo 'houseNumber' é obrigatório.")
+    @NotBlank(message = "O número da residência é obrigatório!")
     private String houseNumber;
 
-    @NotBlank(message = "O campo 'neighborhood' é obrigatório.")
+    @NotBlank(message = "House number is required!")
     private String neighborhood;
 
-    @NotBlank(message = "O campo 'city' é obrigatório.")
+    @NotBlank(message = "The city is required!")
     private String city;
 
-    @NotBlank(message = "O campo 'state' é obrigatório.")
+    @NotBlank(message = "Status is required!")
     private String state;
 
-    @NotBlank(message = "O campo 'country' é obrigatório.")
+    @NotBlank(message = "Country is required!")
     private String country;
 }
