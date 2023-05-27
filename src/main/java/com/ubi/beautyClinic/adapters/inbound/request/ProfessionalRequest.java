@@ -1,6 +1,8 @@
 package com.ubi.beautyClinic.adapters.inbound.request;
 
 import com.ubi.beautyClinic.application.core.domain.ServiceEnum;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -34,6 +36,7 @@ public class ProfessionalRequest {
     private PhoneNumberRequest phoneNumber;
 
     @NotEmpty(message = "A lista de serviços oferecidos não pode estar vazia!")
+    @Enumerated(EnumType.STRING)
     private List<ServiceEnum> offeredServices;
 
     @NotNull(message = "O preço da consulta é obrigatório!")

@@ -1,6 +1,8 @@
 package com.ubi.beautyClinic.adapters.inbound.request;
 
 import com.ubi.beautyClinic.application.core.domain.Gender;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -28,6 +30,7 @@ public class PatientRequest {
     private OffsetDateTime birthDate;
 
     @NotNull(message = "O gênero é obrigatório!")
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Valid

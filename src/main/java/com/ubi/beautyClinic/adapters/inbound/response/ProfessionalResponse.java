@@ -1,6 +1,5 @@
 package com.ubi.beautyClinic.adapters.inbound.response;
 
-import com.ubi.beautyClinic.application.core.domain.ServiceEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +16,7 @@ public class ProfessionalResponse {
     private AddressResponse address;
     private PhoneNumberResponse phoneNumber;
     private String summary;
-    private List<ServiceEnum> offeredServices;
+    private List<String> offeredServices;
     private BigDecimal consultationPrice;
 
     // Classe interna para o mapeamento do Address

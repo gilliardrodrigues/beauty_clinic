@@ -44,7 +44,7 @@ public class JacksonConfig {
             if (value == null || value.isEmpty()) {
                 return null;
             }
-            return Gender.valueOf(value);
+            return Gender.fromValue(value);
         }
     }
     private static class ServiceEnumDeserializer extends JsonDeserializer<ServiceEnum> {
@@ -54,7 +54,7 @@ public class JacksonConfig {
             if (value == null || value.isEmpty()) {
                 return null;
             }
-            return ServiceEnum.valueOf(value);
+            return ServiceEnum.fromValue(value);
         }
     }
     private static class StatusDeserializer extends JsonDeserializer<Status> {
@@ -64,7 +64,7 @@ public class JacksonConfig {
             if (value == null || value.isEmpty()) {
                 return null;
             }
-            return Status.valueOf(value);
+            return Status.fromValue(value);
         }
     }
 }

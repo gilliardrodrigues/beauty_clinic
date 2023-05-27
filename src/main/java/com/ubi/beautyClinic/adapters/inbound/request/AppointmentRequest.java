@@ -1,6 +1,8 @@
 package com.ubi.beautyClinic.adapters.inbound.request;
 
 import com.ubi.beautyClinic.application.core.domain.ServiceEnum;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,5 +24,6 @@ public class AppointmentRequest {
     private OffsetDateTime dateTime;
 
     @NotNull(message = "O serviço é obrigatório!")
+    @Enumerated(EnumType.STRING)
     private ServiceEnum service;
 }

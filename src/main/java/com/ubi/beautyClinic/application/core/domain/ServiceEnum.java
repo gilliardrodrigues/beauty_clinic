@@ -1,5 +1,7 @@
 package com.ubi.beautyClinic.application.core.domain;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum ServiceEnum {
 
 
@@ -14,12 +16,12 @@ public enum ServiceEnum {
     TECARTERAPIA("Tecarterapia", "Procedimentos Corporais"),
     ESTETICA_INTIMA("Estética íntima", "Procedimentos Corporais"),
     PRP("PRP", "Procedimentos Faciais"),
-    TERAPIA_LASER_BAIXO_NIVEL("Terapia à laser de baixo nível", "Tratamentos da Pele"),
+    TERAPIA_A_LASER_DE_BAIXO_NIVEL("Terapia à laser de baixo nível", "Tratamentos da Pele"),
     CRIOLIPOLISE("Criolipólise", "Contorno Corporal"),
     RADIOFREQUENCIA("Radiofrequência", "Contorno Corporal"),
-    PEELING_CRISTAL("Peeling de Cristal", "Tratamentos da Pele"),
-    PEELING_DIAMANTE("Peeling de Diamante", "Tratamentos da Pele"),
-    PEELING_PORCELANA("Peeling de Porcelana", "Tratamentos da Pele"),
+    PEELING_DE_CRISTAL("Peeling de Cristal", "Tratamentos da Pele"),
+    PEELING_DE_DIAMANTE("Peeling de Diamante", "Tratamentos da Pele"),
+    PEELING_DE_PORCELANA("Peeling de Porcelana", "Tratamentos da Pele"),
     PEELING_ULTRASSONICO("Peeling Ultrasônico", "Tratamentos da Pele"),
     PEELING_QUIMICO("Peeling Químico", "Tratamentos da Pele"),
     PEELING_NEOSENSITIVE("Peeling Neosensitive", "Tratamentos da Pele"),
@@ -32,5 +34,25 @@ public enum ServiceEnum {
 
         this.service = service;
         this.category = category;
+    }
+
+    public static ServiceEnum fromValue(String value) {
+        for (ServiceEnum serviceEnum : ServiceEnum.values()) {
+            if (serviceEnum.service.equalsIgnoreCase(value)) {
+                return serviceEnum;
+            }
+        }
+        throw new IllegalArgumentException("Invalid ServiceEnum value: " + value);
+    }
+
+    public String getService() {
+
+        return service;
+    }
+    @JsonValue
+    @Override
+    public String toString() {
+
+        return service;
     }
 }

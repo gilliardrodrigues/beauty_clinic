@@ -1,6 +1,5 @@
 package com.ubi.beautyClinic.adapters.inbound.response;
 
-import com.ubi.beautyClinic.application.core.domain.Gender;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +15,7 @@ public class PatientResponse {
     private AddressResponse address;
     private PhoneNumberResponse phoneNumber;
     private OffsetDateTime birthDate;
-    private Gender gender;
+    private String gender;
 
     // Classe interna para o mapeamento do Address
     @Getter
