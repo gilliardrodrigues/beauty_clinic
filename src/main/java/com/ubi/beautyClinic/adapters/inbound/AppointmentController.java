@@ -79,7 +79,7 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentResponse>> listAppointmentsByDate(@Parameter(description = "Data do agendamento") @PathVariable OffsetDateTime date) {
 
         var appointments = inboundPort.listAppointmentsByDate(date);
-        return appointments.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(mapper.mapToList(appointments, new TypeToken<List<AppointmentResponse>>() {}.getType()));
+        return ResponseEntity.ok(mapper.mapToList(appointments, new TypeToken<List<AppointmentResponse>>() {}.getType()));
     }
     @Tag(name = "Agendamentos")
     @GetMapping("/filter/by-datetime/{dateTime}")
@@ -87,7 +87,7 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentResponse>> listAppointmentsByDateTime(@Parameter(description = "Data e hora do agendamento") @PathVariable OffsetDateTime dateTime) {
 
         var appointments = inboundPort.listAppointmentsByDateTime(dateTime);
-        return appointments.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(mapper.mapToList(appointments, new TypeToken<List<AppointmentResponse>>() {}.getType()));
+        return ResponseEntity.ok(mapper.mapToList(appointments, new TypeToken<List<AppointmentResponse>>() {}.getType()));
     }
 
     @Tag(name = "Agendamentos")
@@ -96,7 +96,7 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentResponse>> listAppointmentsByService(@Parameter(description = "Serviço agendado") @PathVariable ServiceEnum service) {
 
         var appointments = inboundPort.listAppointmentsByService(service);
-        return appointments.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(mapper.mapToList(appointments, new TypeToken<List<AppointmentResponse>>() {}.getType()));
+        return ResponseEntity.ok(mapper.mapToList(appointments, new TypeToken<List<AppointmentResponse>>() {}.getType()));
     }
 
     @Tag(name = "Agendamentos")
@@ -105,7 +105,7 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentResponse>> listAppointmentsByStatus(@Parameter(description = "Status do agendamento") @PathVariable Status status) {
 
         var appointments = inboundPort.listAppointmentsByStatus(status);
-        return appointments.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(mapper.mapToList(appointments, new TypeToken<List<AppointmentResponse>>() {}.getType()));
+        return ResponseEntity.ok(mapper.mapToList(appointments, new TypeToken<List<AppointmentResponse>>() {}.getType()));
     }
 
     @Tag(name = "Agendamentos")
@@ -114,7 +114,7 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentResponse>> listAppointmentsByRating(@Parameter(description = "Avaliação do agendamento") @PathVariable Integer rating) {
 
         var appointments = inboundPort.listAppointmentsByRating(rating);
-        return appointments.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(mapper.mapToList(appointments, new TypeToken<List<AppointmentResponse>>() {}.getType()));
+        return ResponseEntity.ok(mapper.mapToList(appointments, new TypeToken<List<AppointmentResponse>>() {}.getType()));
     }
 
     @Tag(name = "Agendamentos")

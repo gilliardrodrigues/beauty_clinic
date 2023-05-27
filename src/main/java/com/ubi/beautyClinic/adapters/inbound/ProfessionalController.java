@@ -90,7 +90,7 @@ public class ProfessionalController {
     public ResponseEntity<List<ProfessionalResponse>> listProfessionalsByService(@Parameter(description = "Serviço desejado") @PathVariable ServiceEnum service) {
 
         var professionals = inboundPort.findProfessionalsByService(service);
-        return professionals.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(mapper.mapToList(professionals, new TypeToken<List<ProfessionalResponse>>() {}.getType()));
+        return ResponseEntity.ok(mapper.mapToList(professionals, new TypeToken<List<ProfessionalResponse>>() {}.getType()));
     }
 
     @Tag(name = "Profissionais")
@@ -117,7 +117,7 @@ public class ProfessionalController {
     public ResponseEntity<List<ProfessionalResponse>> findProfessionalByFullNameStartingWith(@Parameter(description = "Nome do profissional (parcial ou completo)") @PathVariable String fullName) {
 
         var professionals = inboundPort.findProfessionalByFullNameStartingWith(fullName);
-        return professionals.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(mapper.mapToList(professionals, new TypeToken<List<ProfessionalResponse>>() {}.getType()));
+        return ResponseEntity.ok(mapper.mapToList(professionals, new TypeToken<List<ProfessionalResponse>>() {}.getType()));
     }
 
     @Tag(name = "Profissionais")

@@ -105,7 +105,7 @@ public class PatientController {
     public ResponseEntity<List<PatientResponse>> findPatientByFullNameStartingWith(@Parameter(description = "Nome do paciente (parcial ou completo)") @PathVariable(required = false) String fullName) {
 
         var patients = inboundPort.findPatientByFullNameStartingWith(fullName);
-        return patients.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(mapper.mapToList(patients, new TypeToken<List<PatientResponse>>() {}.getType()));
+        return ResponseEntity.ok(mapper.mapToList(patients, new TypeToken<List<PatientResponse>>() {}.getType()));
     }
 
     @Tag(name = "Pacientes")
