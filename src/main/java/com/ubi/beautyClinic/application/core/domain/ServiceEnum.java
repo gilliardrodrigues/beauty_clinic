@@ -5,27 +5,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum ServiceEnum {
 
 
-    HARMONIZACAO_FACIAL("Harmonização Facial", "Procedimentos Faciais"),
-    BOTOX("Botox", "Procedimentos Faciais"),
-    PREENCHIMENTO_FACIAL("Preenchimento Facial", "Procedimentos Faciais"),
-    PREENCHIMENTO_LABIAL("Preenchimento Labial", "Procedimentos Faciais"),
-    BICHECTOMIA("Bichectomia", "Procedimentos Faciais"),
-    SKINBOOSTER("Skinbooster", "Procedimentos Faciais"),
-    DRENAGEM_LINFATICA("Drenagem Linfática", "Procedimentos Corporais"),
-    MASSAGEM_MODELADORA("Massagem modeladora", "Procedimentos Corporais"),
-    TECARTERAPIA("Tecarterapia", "Procedimentos Corporais"),
-    ESTETICA_INTIMA("Estética íntima", "Procedimentos Corporais"),
-    PRP("PRP", "Procedimentos Faciais"),
-    TERAPIA_A_LASER_DE_BAIXO_NIVEL("Terapia à laser de baixo nível", "Tratamentos da Pele"),
-    CRIOLIPOLISE("Criolipólise", "Contorno Corporal"),
-    RADIOFREQUENCIA("Radiofrequência", "Contorno Corporal"),
-    PEELING_DE_CRISTAL("Peeling de Cristal", "Tratamentos da Pele"),
-    PEELING_DE_DIAMANTE("Peeling de Diamante", "Tratamentos da Pele"),
-    PEELING_DE_PORCELANA("Peeling de Porcelana", "Tratamentos da Pele"),
-    PEELING_ULTRASSONICO("Peeling Ultrasônico", "Tratamentos da Pele"),
-    PEELING_QUIMICO("Peeling Químico", "Tratamentos da Pele"),
-    PEELING_NEOSENSITIVE("Peeling Neosensitive", "Tratamentos da Pele"),
-    PEELING_CRIOGENICO("Peeling Criogênico", "Tratamentos da Pele");
+    FACIAL_HARMONIZATION("Facial Harmonization", "Facial Procedures"),
+    BOTOX("Botox", "Facial Procedures"),
+    FACIAL_FILLER("Facial Filler", "Facial Procedures"),
+    LIP_FILLER("Lip Filler", "Facial Procedures"),
+    BUCHECTOMY("Buccal Fat Removal", "Facial Procedures"),
+    SKIN_BOOSTER("Skin Booster", "Facial Procedures"),
+    LYMPHATIC_DRAINAGE("Lymphatic Drainage", "Body Procedures"),
+    MODELING_MASSAGE("Modeling Massage", "Body Procedures"),
+    TECA_THERAPY("Teca Therapy", "Body Procedures"),
+    INTIMATE_AESTHETICS("Intimate Aesthetics", "Body Procedures"),
+    PRP("PRP", "Facial Procedures"),
+    LOW_LEVEL_LASER_THERAPY("Low-Level Laser Therapy", "Skin Treatments"),
+    CRYOLIPOLYSIS("Cryolipolysis", "Body Contouring"),
+    RADIOFREQUENCY("Radiofrequency", "Body Contouring"),
+    CRYSTAL_PEELING("Crystal Peeling", "Skin Treatments"),
+    DIAMOND_PEELING("Diamond Peeling", "Skin Treatments"),
+    PORCELAIN_PEELING("Porcelain Peeling", "Skin Treatments"),
+    ULTRASONIC_PEELING("Ultrasonic Peeling", "Skin Treatments"),
+    CHEMICAL_PEELING("Chemical Peeling", "Skin Treatments"),
+    NEOSENSITIVE_PEELING("Neosensitive Peeling", "Skin Treatments"),
+    CRYOGENIC_PEELING("Cryogenic Peeling", "Skin Treatments");
 
     private final String service;
     private final String category;
