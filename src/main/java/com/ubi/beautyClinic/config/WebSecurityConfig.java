@@ -84,7 +84,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests().requestMatchers("/js/**", "/img/**", "/css/**",
                 "/swagger-ui/**", "/v3/api-docs/**")
                 .permitAll()
-                .requestMatchers(HttpMethod.GET,"/professionals/search/by-service/**").hasAnyAuthority("PATIENT", "PROFESSIONAL")
+                .requestMatchers(HttpMethod.GET,"/professionals/filter/by-service/**").hasAnyAuthority("PATIENT", "PROFESSIONAL")
                 .requestMatchers(HttpMethod.POST, "/professionals/authenticate", "/professionals/register")
                 .permitAll()
                 .requestMatchers(HttpMethod.POST, "/patients/authenticate", "/patients/register")
