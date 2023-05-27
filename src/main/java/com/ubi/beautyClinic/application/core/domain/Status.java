@@ -16,15 +16,6 @@ public enum Status {
         this.description = description;
     }
 
-    public static Status fromValue(String value) {
-        for (Status status : Status.values()) {
-            if (status.description.equalsIgnoreCase(value)) {
-                return status;
-            }
-        }
-        throw new IllegalArgumentException("Invalid Status value: " + value);
-    }
-
     public String getDescription() {
 
         return description;

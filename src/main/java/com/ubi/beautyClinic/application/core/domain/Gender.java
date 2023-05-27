@@ -15,15 +15,6 @@ public enum Gender {
         this.description = description;
     }
 
-    public static Gender fromValue(String value) {
-        for (Gender gender : Gender.values()) {
-            if (gender.description.equalsIgnoreCase(value)) {
-                return gender;
-            }
-        }
-        throw new IllegalArgumentException("Invalid Gender value: " + value);
-    }
-
     public String getDescription() {
 
         return description;

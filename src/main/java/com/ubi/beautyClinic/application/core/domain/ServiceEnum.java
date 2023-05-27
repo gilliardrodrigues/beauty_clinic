@@ -36,15 +36,6 @@ public enum ServiceEnum {
         this.category = category;
     }
 
-    public static ServiceEnum fromValue(String value) {
-        for (ServiceEnum serviceEnum : ServiceEnum.values()) {
-            if (serviceEnum.service.equalsIgnoreCase(value)) {
-                return serviceEnum;
-            }
-        }
-        throw new IllegalArgumentException("Invalid ServiceEnum value: " + value);
-    }
-
     public String getService() {
 
         return service;
