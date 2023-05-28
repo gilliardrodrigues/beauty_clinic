@@ -19,7 +19,7 @@ document.getElementById("registerForm").addEventListener("submit", function(even
 
   
     // Make a request to the external API for authentication
-    fetch('patients/register', {
+    fetch('http://localhost:8080/patients/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -29,7 +29,7 @@ document.getElementById("registerForm").addEventListener("submit", function(even
         password: password,
         fullName: fullName,
         gender: gender,
-        birthdate: birthdate,
+        birthDate: new Date(birthdate).toISOString(),
         address: {
             street: street,
             houseNumber: houseNumber,

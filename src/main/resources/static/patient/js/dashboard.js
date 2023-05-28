@@ -61,7 +61,6 @@ function insertDataIntoTable(data) {
       });
 
     
-  
       row.appendChild(dateCell);
       row.appendChild(serviceCell);
       row.appendChild(professionalCell);
