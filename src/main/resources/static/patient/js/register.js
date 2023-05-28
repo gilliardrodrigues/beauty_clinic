@@ -55,8 +55,8 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     .then(function(data) {
       // Authentication successful, perform necessary actions
       // For example, store the token in local storage and redirect to another page
-      localStorage.setItem('token', data.token);
-      window.location.href = 'dashboard.html';
+
+      window.location.href = 'login.html';
     })
     .catch(function(error) {
       // Authentication failed, display an error message
