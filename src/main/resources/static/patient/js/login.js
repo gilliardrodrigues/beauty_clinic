@@ -1,11 +1,10 @@
 document.getElementById("loginForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent form submission
+    event.preventDefault(); 
   
     var email = document.getElementById("email").value;
     var password = document.getElementById("password").value;
   
-    // Make a request to the external API for authentication
-    fetch('patients/authenticate', {
+    fetch('http://localhost:8080/patients/authenticate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -23,13 +22,10 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
       }
     })
     .then(function(data) {
-      // Authentication successful, perform necessary actions
-      // For example, store the token in local storage and redirect to another page
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('token', data.jwtToken);
       window.location.href = 'dashboard.html';
     })
     .catch(function(error) {
-      // Authentication failed, display an error message
       document.getElementById("message").innerHTML = error.message;
     });
   });

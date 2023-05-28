@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Patient - New Appointment</title>
+  <link rel="stylesheet" type="text/css" href="../../static/patient/css/new_appointment.css">
+</head>
+<body onload="checkLogged()">
+  <header>
+     <!-- <a href="dashboard.html">Home</a>  -->
+  </header>
+  <div class="card">
+    <h2>New Appointment</h2>
+    <form id="searchForm">
+        <div class="form-item">
+            <label for="offeredServices">Search for service:</label>
+            <select id="offeredServices" name="offeredServices" required>
+                <option value="" disabled selected>Select an option</option>
+                <option value="FACIAL_HARMONIZATION">Facial Harmonization</option>
+                <option value="BOTOX">Botox</option>
+                <option value="FACIAL_FILLER">Facial Filler</option>
+                <option value="LIP_FILLER">Lip Filler</option>
+                <option value="BUCHECTOMY">Buccal Fat Removal</option>
+                <option value="SKIN_BOOSTER">Skin Booster</option>
+                <option value="LYMPHATIC_DRAINAGE">Lymphatic Drainage</option>
+                <option value="MODELING_MASSAGE">Modeling Massage</option>
+                <option value="TECA_THERAPY">Teca Therapy</option>
+                <option value="INTIMATE_AESTHETICS">Intimate Aesthetics</option>
+                <option value="PRP">PRP</option>
+                <option value="LOW_LEVEL_LASER_THERAPY">Low-Level Laser Therapy</option>
+                <option value="CRYOLIPOLYSIS">Cryolipolysis</option>
+                <option value="CRYSTAL_PEELING">Crystal Peeling</option>
+                <option value="DIAMOND_PEELING">Diamond Peeling</option>
+                <option value="PORCELAIN_PEELING">Porcelain Peeling</option>
+                <option value="ULTRASONIC_PEELING">Ultrasonic Peeling</option>
+                <option value="CHEMICAL_PEELING">Chemical Peeling</option>
+                <option value="NEOSENSITIVE_PEELING">Neosensitive Peeling</option>
+                <option value="CRYOGENIC_PEELING">Cryogenic Peeling</option>
+            </select>
+        </div>
+
+        <div class="form-item">
+            <label for="desiredDate">Desired Date:</label>
+            <input type="datetime-local" id="desiredDate" name="desiredDate" required>
+        </div>
+
+        <button type="submit">Search</button>
+        <p id="message"></p>
+    </form>
+
+    <div id="professional-list" class="professional-list">
+        
+    </div>
+  </div>
+
+  <footer>
+      Beauty Clinic - Trademark
+  </footer>
+
+  <script src="../../static/patient/js/new_appointment.js"></script>
+</body>
+</html>

@@ -45,7 +45,7 @@ body {
     background-color: #00b4d8;
   }
   
-  .cancel-appointment-btn {
+  .accept-appointment-btn {
     background-color: #83c167;
   }
   
@@ -56,4 +56,5 @@ body {
   .button-container {
     text-align: center;
     margin-top: 20px;
+    margin-bottom: 20px;
   }

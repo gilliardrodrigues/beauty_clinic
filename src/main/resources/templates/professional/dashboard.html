@@ -1,44 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Appointment</title>
+  <title>Appointments</title>
   <link rel="stylesheet" type="text/css" href="../../static/professional/css/dashboard.css">
 </head>
-<body>
-  <table>
-    <tr>
-      <th>Name patient</th>
-      <th>Appointment</th>
-    </tr>
-    <tr>
-      <td>id</td>
-      <td>id</td>
-    </tr>
-    <tr>
-      <td>dateTime</td>
-      <td>dateTime</td>
-    </tr>
-    <tr>
-      <td>service</td>
-      <td>service</td>
-    </tr>
-    <tr>
-      <td>status</td>
-      <td>status</td>
-    </tr>
-  </table>
-
+<body onload="fetchData()">
   <div class="button-container">
     <button class="action-btn logout-btn" onclick="logout()">Log Out</button>
   </div>
+  <table id="myTable">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Service</th>
+        <th>Patient Name</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- Fetched data will be inserted here -->
+    </tbody>
+  </table>
+  
+
+ 
 
   <script>
     function logout() {
       // Aquí puedes agregar la lógica para realizar el logout o redirigir a la página de logout
-      alert("You have successfully logged out.");
+      localStorage.removeItem(`token`);
+      window.location.href = `login.html`;
     }
-    
-    
   </script>
+
+  <script src="../../static/professional/js/dashboard.js"></script>
 </body>
 </html>
