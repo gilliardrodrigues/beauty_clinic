@@ -111,7 +111,7 @@ public class PatientController {
     @Tag(name = "Pacientes")
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar os dados de um paciente")
-    public ResponseEntity<PatientResponse> updatePatientData (@Valid @PathVariable Long id, @RequestBody PatientRequest patientRequest) throws BusinessLogicException {
+    public ResponseEntity<PatientResponse> updatePatientData (@Parameter(description = "ID do paciente") @Valid @PathVariable Long id, @RequestBody PatientRequest patientRequest) throws BusinessLogicException {
 
         var patient = mapper.mapTo(patientRequest, Patient.class);
         patient.setId(id);
