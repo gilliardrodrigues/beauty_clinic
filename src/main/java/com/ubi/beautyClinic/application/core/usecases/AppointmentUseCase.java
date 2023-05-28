@@ -50,13 +50,6 @@ public class AppointmentUseCase implements AppointmentUseCaseInboundPort {
         return outboundPort.save(appointment);
     }
 
-    public Appointment markAppointmentAsAccomplished(Appointment appointment) {
-
-        if(appointment.getStatus().equals(Status.TO_ACCOMPLISH))
-            appointment.setStatus(Status.ACCOMPLISHED);
-        return outboundPort.save(appointment);
-    }
-
     @Override
     @Transactional
     public Appointment requestAppointment(Appointment appointment) throws BusinessLogicException {
@@ -113,13 +106,11 @@ public class AppointmentUseCase implements AppointmentUseCaseInboundPort {
 
         if(loggedUserAuthorities.contains(new SimpleGrantedAuthority("PATIENT"))) {
             var patient = patientRepositoryOutboundPort.findByEmail(loggedUserEmail);
-            var appointments = outboundPort.findByPatient(patient);
-            return appointments;
+            return outboundPort.findByPatient(patient);
         }
         if(loggedUserAuthorities.contains(new SimpleGrantedAuthority("PROFESSIONAL"))) {
             var professional = professionalRepositoryOutboundPort.findByEmail(loggedUserEmail);
-            var appointments = outboundPort.findByProfessional(professional);
-            return appointments;
+            return outboundPort.findByProfessional(professional);
         }
         return new ArrayList<>();
     }
