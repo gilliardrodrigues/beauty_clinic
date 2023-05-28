@@ -14,15 +14,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class Config {
 
     @Bean
-    public ProfessionalUseCase professionalUseCase(ProfessionalRepositoryOutboundPort outboundPort, PasswordEncoder bcryptEncoder) {
+    public ProfessionalUseCase professionalUseCase(ProfessionalRepositoryOutboundPort outboundPort) {
 
-        return new ProfessionalUseCase(outboundPort, bcryptEncoder);
+        return new ProfessionalUseCase(outboundPort);
     }
 
     @Bean
     public PatientUseCase patientUseCase(PatientRepositoryOutboundPort outboundPort, PasswordEncoder bcryptEncoder) {
 
-        return new PatientUseCase(outboundPort, bcryptEncoder);
+        return new PatientUseCase(outboundPort);
     }
 
     @Bean

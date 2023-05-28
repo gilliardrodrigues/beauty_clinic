@@ -7,7 +7,6 @@ import com.ubi.beautyClinic.application.ports.in.PatientUseCaseInboundPort;
 import com.ubi.beautyClinic.application.ports.out.PatientRepositoryOutboundPort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -15,11 +14,10 @@ import java.util.List;
 public class PatientUseCase implements PatientUseCaseInboundPort {
 
     private final PatientRepositoryOutboundPort outboundPort;
-    private final PasswordEncoder bcryptEncoder;
 
-    public PatientUseCase(PatientRepositoryOutboundPort outboundPort, PasswordEncoder bcryptEncoder) {
+    public PatientUseCase(PatientRepositoryOutboundPort outboundPort) {
+
         this.outboundPort = outboundPort;
-        this.bcryptEncoder = bcryptEncoder;
     }
 
     @Override
@@ -34,7 +32,6 @@ public class PatientUseCase implements PatientUseCaseInboundPort {
 
         if (outboundPort.patientExists(patient.getEmail()))
             throw new UserAlreadyExistsException("A patient record with this email already exists!");
-        patient.setPassword(bcryptEncoder.encode(patient.getPassword()));
 
         return outboundPort.save(patient);
     }

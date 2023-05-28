@@ -11,6 +11,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,11 +21,12 @@ public class PatientRepositoryAdapter implements PatientRepositoryOutboundPort, 
 
     private final PatientRepository repository;
     private final GenericMapper mapper;
+    private final PasswordEncoder bcryptEncoder;
 
-
-    public PatientRepositoryAdapter(PatientRepository repository, GenericMapper mapper) {
+    public PatientRepositoryAdapter(PatientRepository repository, GenericMapper mapper, PasswordEncoder bcryptEncoder) {
         this.repository = repository;
         this.mapper = mapper;
+        this.bcryptEncoder = bcryptEncoder;
     }
 
     @Override
@@ -54,6 +56,7 @@ public class PatientRepositoryAdapter implements PatientRepositoryOutboundPort, 
     @Override
     public Patient save(Patient patient) throws BusinessLogicException {
 
+        patient.setPassword(bcryptEncoder.encode(patient.getPassword()));
         var patientEntity = mapper.mapTo(patient, PatientEntity.class);
         return mapper.mapTo(repository.save(patientEntity), Patient.class);
     }

@@ -12,6 +12,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,10 +22,12 @@ public class ProfessionalRepositoryAdapter implements ProfessionalRepositoryOutb
 
     private final ProfessionalRepository repository;
     private final GenericMapper mapper;
+    private final PasswordEncoder bcryptEncoder;
 
-    public ProfessionalRepositoryAdapter(ProfessionalRepository repository, GenericMapper mapper) {
+    public ProfessionalRepositoryAdapter(ProfessionalRepository repository, GenericMapper mapper, PasswordEncoder bcryptEncoder) {
         this.repository = repository;
         this.mapper = mapper;
+        this.bcryptEncoder = bcryptEncoder;
     }
 
     @Override
@@ -55,6 +58,7 @@ public class ProfessionalRepositoryAdapter implements ProfessionalRepositoryOutb
     @Override
     public Professional save(Professional professional) throws BusinessLogicException {
 
+        professional.setPassword(bcryptEncoder.encode(professional.getPassword()));
         var professionalEntity =mapper.mapTo(professional, ProfessionalEntity.class);
         return mapper.mapTo(repository.save(professionalEntity), Professional.class);
     }
