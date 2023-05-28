@@ -22,8 +22,8 @@
             <label for="gender">Gender:</label>
             <select id="gender" name="gender" required>
               <option value="" selected disabled>Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
             </select>
             <label for="birthdate">Birthdate:</label>
             <input type="date" id="birthdate" name="birthdate" required>
@@ -32,7 +32,7 @@
           <section>
             <h2>Address</h2>
             <label for="postalCode">Postal Code:</label>
-            <input type="text" id="postalCode" name="postalCode" required>
+            <input type="text" onblur="searchAddressByCep(this.value)" id="postalCode" name="postalCode" required>
             <label for="street">Street:</label>
             <input type="text" id="street" name="street" required>
             <label for="houseNumber">House Number:</label>

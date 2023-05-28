@@ -1,3 +1,27 @@
+* {
+  margin: 0;
+}
+
+header {
+  width: 100%;
+  height: 50px;
+  background-color:#45a049;
+  margin-bottom: 50px;
+}
+
+footer {
+  position: fixed;
+  height: 30px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #45a049;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 body {
     font-family: Arial, sans-serif;
   }

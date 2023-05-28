@@ -42,11 +42,11 @@ Trata-se de um sistema que permite o gerenciamento de uma clínica de estética,
 - ✅ Como paciente, eu gostaria de ter a possiblidade de pesquisar por serviços na plataforma e encontrar profissionais que os oferecem;
 - ✅ Como paciente, eu gostaria de ter a possibilidade de marcar consultas pela plataforma;
 - ✅ Como paciente, eu gostaria de poder visualizar meus pedidos de consulta, bem como seus status, através da plataforma;
-- ⬜️ Como paciente, eu gostaria de ter a possibilidade de baixar um PDF com os detalhes de uma consulta;
-- ⬜️ Como paciente, eu gostaria de ser avisado por e-mail quando um pedido de consulta fosse aceito ou recusado;
+- ✅ Como paciente, eu gostaria de ter a possibilidade de baixar um PDF com os detalhes de uma consulta;
+- ✅ Como paciente, eu gostaria de ser avisado por e-mail quando um pedido de consulta fosse aceito ou recusado;
 - ✅ Como profissional, eu gostaria de poder me cadastrar na plataforma, bem como selecionar os serviços que vou oferecer;
 - ✅ Como profissional, eu gostaria de poder visualizar as solicitações de consultas, bem como aceitá-las ou recusá-las;
-- ⬜️ Como profissional, eu gostaria de ser avisado por e-mail quando um paciente fizesse um novo pedido de consulta;
+- ✅ Como profissional, eu gostaria de ser avisado por e-mail quando um paciente fizesse um novo pedido de consulta;
 
 ### 📁 Descrição da arquitetura:
 

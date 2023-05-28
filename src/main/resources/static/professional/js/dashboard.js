@@ -43,7 +43,6 @@ function insertDataIntoTable(data) {
       serviceCell.textContent = item.service;
       statusCell.textContent = item.status;
       patientCell.textContent = item.patientFullName;
-      console.log(item.status)
       if(item.status == "Requested"){
         
           actionsCell.innerHTML = `

@@ -64,3 +64,59 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     });
   });
   
+
+  function clearFields() {
+
+    document.getElementById('street').value=("");
+    document.getElementById('neighborhood').value=("");
+    document.getElementById('city').value=("");
+    document.getElementById('state').value=("");
+
+  }
+
+  function my_callback(response) {
+  if (!("erro" in response)) {
+
+      document.getElementById('street').value=(response.logradouro);
+      document.getElementById('neighborhood').value=(response.bairro);
+      document.getElementById('city').value=(response.localidade);
+      document.getElementById('state').value=(response.uf);
+  } 
+  else {
+      clearFields();
+      alert("CEP not found.");
+  }
+}
+  
+
+  function searchAddressByCep(cep){
+
+    var cep = cep.replace(/\D/g, '');
+
+    if (cep != "") {
+
+        var validacep = /^[0-9]{8}$/;
+
+        if(validacep.test(cep)) {
+
+            document.getElementById('street').value="...";
+            document.getElementById('neighborhood').value="...";
+            document.getElementById('city').value="...";
+            document.getElementById('state').value="...";
+
+            var script = document.createElement('script');
+
+            script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=my_callback';
+
+            document.body.appendChild(script);
+
+        }
+        else {
+            clearFields();
+            alert("Invalid format CEP.");
+        }
+    } 
+    else {
+        clearFields();
+    }
+};
