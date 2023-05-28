@@ -50,7 +50,7 @@ public class PatientController {
 
     @Tag(name = "Pacientes")
     @Operation(summary = "Autenticação de paciente")
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
@@ -115,18 +115,13 @@ public class PatientController {
 
         var patient = mapper.mapTo(patientRequest, Patient.class);
         patient.setId(id);
-        return inboundPort.patientExists(id)
-                ? ResponseEntity.ok(mapper.mapTo(inboundPort.updatePatientData(patient), PatientResponse.class))
-                : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(mapper.mapTo(inboundPort.updatePatientData(patient), PatientResponse.class));
     }
 
     @Tag(name = "Pacientes")
     @DeleteMapping("/{id}")
     @Operation(summary = "Excluir os dados de um paciente")
     public ResponseEntity<PatientResponse> deletePatient(@Parameter(description = "ID do paciente") @PathVariable Long id) {
-
-        if (!inboundPort.patientExists(id))
-            return ResponseEntity.notFound().build();
 
         inboundPort.deletePatientById(id);
         return ResponseEntity.noContent().build();

@@ -2,6 +2,7 @@ package com.ubi.beautyClinic.application.core.usecases;
 
 import com.ubi.beautyClinic.application.core.domain.Patient;
 import com.ubi.beautyClinic.application.core.exceptions.BusinessLogicException;
+import com.ubi.beautyClinic.application.core.exceptions.ObjectNotFoundException;
 import com.ubi.beautyClinic.application.core.exceptions.UserAlreadyExistsException;
 import com.ubi.beautyClinic.application.ports.in.PatientUseCaseInboundPort;
 import com.ubi.beautyClinic.application.ports.out.PatientRepositoryOutboundPort;
@@ -40,7 +41,7 @@ public class PatientUseCase implements PatientUseCaseInboundPort {
     public UserDetails loadPatientByEmail(String email) {
 
         if (!outboundPort.patientExists(email))
-            throw new UsernameNotFoundException("Patient not found with email: " + email);
+            throw new ObjectNotFoundException("Patient not found with email: " + email);
 
         return outboundPort.loadUserByUsername(email);
     }
@@ -50,7 +51,7 @@ public class PatientUseCase implements PatientUseCaseInboundPort {
     public Patient updatePatientData(Patient patient) throws BusinessLogicException {
 
         if (!outboundPort.patientExists(patient.getId()))
-            throw new UsernameNotFoundException("Patient not found!");
+            throw new UsernameNotFoundException("Patient not found with ID: " + patient.getId());
 
         return outboundPort.save(patient);
     }
@@ -64,6 +65,9 @@ public class PatientUseCase implements PatientUseCaseInboundPort {
     @Override
     @Transactional
     public void deletePatientById(Long id) {
+
+        if (!outboundPort.patientExists(id))
+            throw new UsernameNotFoundException("Patient not found with ID: " + id);
 
         outboundPort.delete(id);
     }

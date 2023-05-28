@@ -3,11 +3,11 @@ package com.ubi.beautyClinic.application.core.usecases;
 import com.ubi.beautyClinic.application.core.domain.Professional;
 import com.ubi.beautyClinic.application.core.domain.ServiceEnum;
 import com.ubi.beautyClinic.application.core.exceptions.BusinessLogicException;
+import com.ubi.beautyClinic.application.core.exceptions.ObjectNotFoundException;
 import com.ubi.beautyClinic.application.core.exceptions.UserAlreadyExistsException;
 import com.ubi.beautyClinic.application.ports.in.ProfessionalUseCaseInboundPort;
 import com.ubi.beautyClinic.application.ports.out.ProfessionalRepositoryOutboundPort;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public class ProfessionalUseCase implements ProfessionalUseCaseInboundPort {
     public UserDetails loadProfessionalByEmail(String email) {
 
         if (!outboundPort.professionalExists(email))
-            throw new UsernameNotFoundException("Professional not found with email:" + email);
+            throw new ObjectNotFoundException("Professional not found with email:" + email);
 
         return outboundPort.loadUserByUsername(email);
     }
@@ -51,7 +51,7 @@ public class ProfessionalUseCase implements ProfessionalUseCaseInboundPort {
     public Professional updateProfessionalData(Professional professional) throws BusinessLogicException {
 
         if (!outboundPort.professionalExists(professional.getId()))
-            throw new UsernameNotFoundException("Professional not found!");
+            throw new ObjectNotFoundException("Professional not found with ID: " + professional.getId());
 
         return outboundPort.save(professional);
     }
@@ -66,11 +66,17 @@ public class ProfessionalUseCase implements ProfessionalUseCaseInboundPort {
     @Transactional
     public void deleteProfessionalById(Long id) {
 
+        if(!outboundPort.professionalExists(id))
+            throw new ObjectNotFoundException("Professional not found with ID: " + id);
+
         outboundPort.delete(id);
     }
 
     @Override
     public Professional findProfessionalById(Long id) {
+
+        if(!outboundPort.professionalExists(id))
+            throw new ObjectNotFoundException("Professional not found with ID: " + id);
 
         return outboundPort.findById(id);
     }

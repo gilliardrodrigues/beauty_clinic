@@ -1,100 +1,132 @@
 package com.ubi.beautyClinic.adapters.inbound.exceptionHandlers;
 
-import com.ubi.beautyClinic.application.core.exceptions.BusinessLogicException;
 import com.ubi.beautyClinic.application.core.exceptions.ObjectNotFoundException;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import com.ubi.beautyClinic.application.core.exceptions.UserAlreadyExistsException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
+import org.springframework.lang.Nullable;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @Autowired
-    private MessageSource msgSrc;
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<?> handleObjectNotFoundException(ObjectNotFoundException exception) {
+
+        UserAlreadyExistsDetails exceptionDetails = UserAlreadyExistsDetails.Builder
+                .newBuilder()
+                .timestamp(new Date().getTime())
+                .status(HttpStatus.NOT_FOUND.value())
+                .title("Object Not Found")
+                .detail(exception.getMessage())
+                .developerMessage(exception.getClass().getName())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<?> handleUserAlreadyExistsException(UserAlreadyExistsException exception) {
+
+        UserAlreadyExistsDetails exceptionDetails = UserAlreadyExistsDetails.Builder
+                .newBuilder()
+                .timestamp(new Date().getTime())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .title("User Already Exists")
+                .detail(exception.getMessage())
+                .developerMessage(exception.getClass().getName())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
+                                                          HttpHeaders headers,
+                                                          HttpStatusCode status,
+                                                          WebRequest request) {
 
-        return handleExceptionInternal(ex, buildErrorBody(ex, status), headers, status, request);
+        ValidationErrorDetails exceptionDetails = ValidationErrorDetails.Builder
+                .newBuilder()
+                .timestamp(new Date().getTime())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .title("Field Validation Error")
+                .detail("Error: one or more fields are incorrect!")
+                .developerMessage(exception.getClass().getName())
+                .fields(returnFieldList(exception))
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
 
-    private Error buildErrorBody(MethodArgumentNotValidException exception, HttpStatusCode status){
+    private List<Field> returnFieldList(MethodArgumentNotValidException exception){
 
-        var error = new Error();
-        error.setStatus(status.value());
-        error.setDateTime(OffsetDateTime.now());
-        error.setTitle("Error: one or more fields are incorrect!");
-        error.setFields(returnErrorList(exception));
-
-        return error;
+        var fields = new ArrayList<Field>();
+        var fieldErrors = exception.getBindingResult().getFieldErrors();
+        fieldErrors.stream()
+                .forEach(fieldError ->
+                        fields.add(new Field(fieldError.getField(), fieldError.getDefaultMessage())));
+        return fields;
     }
 
-    private List<Field> returnErrorList(MethodArgumentNotValidException exception){
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<Object> handleDisabledException(DisabledException exception) {
 
-        var errors = new ArrayList<Field>();
-        for(ObjectError error : exception.getBindingResult().getAllErrors()){
-            String fieldName = ((FieldError) error).getField();
-            String message = msgSrc.getMessage(error, LocaleContextHolder.getLocale());
-            errors.add(new Field(fieldName, message));
-        }
-        return errors;
+        ErrorDetails errorDetails = ErrorDetails.Builder
+                .newBuilder()
+                .timestamp(new Date().getTime())
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .title("User disabled")
+                .detail(exception.getMessage())
+                .developerMessage(exception.getClass().getName())
+                .build();
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
     }
 
-    private Error buildErrorBody(String message, HttpStatus status){
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException exception) {
 
-        var error = new Error();
-        error.setStatus(status.value());
-        error.setDateTime(OffsetDateTime.now());
-        error.setTitle(message);
-        return error;
+        ErrorDetails errorDetails = ErrorDetails.Builder
+                .newBuilder()
+                .timestamp(new Date().getTime())
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .title("Invalid credentials")
+                .detail(exception.getMessage())
+                .developerMessage(exception.getClass().getName())
+                .build();
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(BusinessLogicException.class)
-    public ResponseEntity<Object> handleBusinessLogicException(BusinessLogicException exception, WebRequest request){
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        return handleExceptionInternal(exception, buildErrorBody(exception.getMessage(), status), new HttpHeaders(), status, request);
-    }
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception exception,
+                                                             @Nullable Object body,
+                                                             HttpHeaders headers,
+                                                             HttpStatusCode status,
+                                                             WebRequest request) {
 
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<Object> handleObjectNotFoundException(ObjectNotFoundException exception, WebRequest request){
-        HttpStatus status = HttpStatus.NOT_FOUND;
-        return handleExceptionInternal(exception, buildErrorBody(exception.getMessage(), status), new HttpHeaders(), status, request);
-    }
+        ErrorDetails errorDetails = ErrorDetails.Builder
+                .newBuilder()
+                .timestamp(new Date().getTime())
+                .status(status.value())
+                .title("Internal Exception")
+                .detail(exception.getMessage())
+                .developerMessage(exception.getClass().getName())
+                .build();
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Error> handleConstraintViolationException(ConstraintViolationException ex) {
-        List<Field> errorFields = new ArrayList<>();
-
-        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
-            String fieldName = violation.getPropertyPath().toString();
-            String errorMessage = violation.getMessage();
-            Field errorField = new Field(fieldName, errorMessage);
-            errorFields.add(errorField);
-        }
-
-        Error error = new Error();
-        error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.setDateTime(OffsetDateTime.now());
-        error.setTitle("Validation error!");
-        error.setFields(errorFields);
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        return new ResponseEntity<>(errorDetails, headers, status);
     }
 }

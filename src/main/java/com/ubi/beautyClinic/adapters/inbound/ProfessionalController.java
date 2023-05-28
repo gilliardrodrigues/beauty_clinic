@@ -55,9 +55,7 @@ public class ProfessionalController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
-
         final UserDetails userDetails = inboundPort.loadProfessionalByEmail(authenticationRequest.getEmail());
-
         final String token = jwtTokenUtil.generateToken(userDetails, "PROFESSIONAL");
 
         return ResponseEntity.ok(new JwtResponse(token));
@@ -127,18 +125,13 @@ public class ProfessionalController {
 
         var professional = mapper.mapTo(professionalRequest, Professional.class);
         professional.setId(id);
-        return inboundPort.professionalExists(id)
-                ? ResponseEntity.ok(mapper.mapTo(inboundPort.updateProfessionalData(professional), ProfessionalResponse.class))
-                : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(mapper.mapTo(inboundPort.updateProfessionalData(professional), ProfessionalResponse.class));
     }
 
     @Tag(name = "Profissionais")
     @DeleteMapping("/{id}")
     @Operation(summary = "Excluir os dados de um profissional")
     public ResponseEntity<ProfessionalResponse> deleteProfessional(@Parameter(description = "ID do profissional") @PathVariable Long id) {
-
-        if (!inboundPort.professionalExists(id))
-            return ResponseEntity.notFound().build();
 
         inboundPort.deleteProfessionalById(id);
         return ResponseEntity.noContent().build();

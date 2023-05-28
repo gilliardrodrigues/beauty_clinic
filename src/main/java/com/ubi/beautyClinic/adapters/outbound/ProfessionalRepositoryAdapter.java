@@ -81,7 +81,7 @@ public class ProfessionalRepositoryAdapter implements ProfessionalRepositoryOutb
 
         var professionalEntity = repository.findById(id);
         return professionalEntity.map(entity -> mapper.mapTo(entity, Professional.class))
-                .orElseThrow(() -> new ObjectNotFoundException("Professional not found!"));
+                .orElseThrow(() -> new ObjectNotFoundException("Professional not found with ID: " + id));
     }
 
     @Override
