@@ -3,10 +3,7 @@ package com.ubi.beautyClinic.config;
 import com.ubi.beautyClinic.application.core.usecases.AppointmentUseCase;
 import com.ubi.beautyClinic.application.core.usecases.PatientUseCase;
 import com.ubi.beautyClinic.application.core.usecases.ProfessionalUseCase;
-import com.ubi.beautyClinic.application.ports.out.AppointmentRepositoryOutboundPort;
-import com.ubi.beautyClinic.application.ports.out.JavaMailSenderOutboundPort;
-import com.ubi.beautyClinic.application.ports.out.PatientRepositoryOutboundPort;
-import com.ubi.beautyClinic.application.ports.out.ProfessionalRepositoryOutboundPort;
+import com.ubi.beautyClinic.application.ports.out.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,8 +24,8 @@ public class Config {
     }
 
     @Bean
-    public AppointmentUseCase appointmentUseCase(AppointmentRepositoryOutboundPort outboundPort, PatientRepositoryOutboundPort patientRepositoryOutboundPort, ProfessionalRepositoryOutboundPort professionalRepositoryOutboundPort, JavaMailSenderOutboundPort javaMailSenderOutboundPort) {
+    public AppointmentUseCase appointmentUseCase(AppointmentRepositoryOutboundPort outboundPort, PatientRepositoryOutboundPort patientRepositoryOutboundPort, ProfessionalRepositoryOutboundPort professionalRepositoryOutboundPort, JavaMailSenderOutboundPort javaMailSenderOutboundPort, PdfGeneratorOutboundPort pdfGeneratorOutboundPort) {
 
-        return new AppointmentUseCase(outboundPort, patientRepositoryOutboundPort, professionalRepositoryOutboundPort, javaMailSenderOutboundPort);
+        return new AppointmentUseCase(outboundPort, patientRepositoryOutboundPort, professionalRepositoryOutboundPort, javaMailSenderOutboundPort, pdfGeneratorOutboundPort);
     }
 }

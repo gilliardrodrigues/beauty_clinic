@@ -1,18 +1,18 @@
 package com.ubi.beautyClinic.application.core.usecases;
 
+import com.itextpdf.text.DocumentException;
 import com.ubi.beautyClinic.application.core.domain.Appointment;
 import com.ubi.beautyClinic.application.core.domain.ServiceEnum;
 import com.ubi.beautyClinic.application.core.domain.Status;
 import com.ubi.beautyClinic.application.core.exceptions.BusinessLogicException;
 import com.ubi.beautyClinic.application.ports.in.AppointmentUseCaseInboundPort;
-import com.ubi.beautyClinic.application.ports.out.AppointmentRepositoryOutboundPort;
-import com.ubi.beautyClinic.application.ports.out.JavaMailSenderOutboundPort;
-import com.ubi.beautyClinic.application.ports.out.PatientRepositoryOutboundPort;
-import com.ubi.beautyClinic.application.ports.out.ProfessionalRepositoryOutboundPort;
+import com.ubi.beautyClinic.application.ports.out.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -25,12 +25,21 @@ public class AppointmentUseCase implements AppointmentUseCaseInboundPort {
     private final PatientRepositoryOutboundPort patientRepositoryOutboundPort;
     private final ProfessionalRepositoryOutboundPort professionalRepositoryOutboundPort;
     private final JavaMailSenderOutboundPort javaMailSenderOutboundPort;
+    private final PdfGeneratorOutboundPort pdfGeneratorOutboundPort;
 
-    public AppointmentUseCase(AppointmentRepositoryOutboundPort outboundPort, PatientRepositoryOutboundPort patientRepositoryOutboundPort, ProfessionalRepositoryOutboundPort professionalRepositoryOutboundPort, JavaMailSenderOutboundPort javaMailSenderOutboundPort) {
+    public AppointmentUseCase(AppointmentRepositoryOutboundPort outboundPort, PatientRepositoryOutboundPort patientRepositoryOutboundPort, ProfessionalRepositoryOutboundPort professionalRepositoryOutboundPort, JavaMailSenderOutboundPort javaMailSenderOutboundPort, PdfGeneratorOutboundPort pdfGeneratorOutboundPort) {
         this.outboundPort = outboundPort;
         this.patientRepositoryOutboundPort = patientRepositoryOutboundPort;
         this.professionalRepositoryOutboundPort = professionalRepositoryOutboundPort;
         this.javaMailSenderOutboundPort = javaMailSenderOutboundPort;
+        this.pdfGeneratorOutboundPort = pdfGeneratorOutboundPort;
+    }
+
+    @Override
+    public void generateAppointmentAsPdf(Long id, OutputStream outputStream) throws DocumentException, IOException {
+
+        var appointment = outboundPort.findById(id);
+        pdfGeneratorOutboundPort.generateAppointmentPdf(appointment, outputStream);
     }
 
     @Override

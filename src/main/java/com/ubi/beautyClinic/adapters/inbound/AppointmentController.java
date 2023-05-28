@@ -1,5 +1,6 @@
 package com.ubi.beautyClinic.adapters.inbound;
 
+import com.itextpdf.text.DocumentException;
 import com.ubi.beautyClinic.adapters.inbound.mappers.GenericMapper;
 import com.ubi.beautyClinic.adapters.inbound.request.AppointmentRequest;
 import com.ubi.beautyClinic.adapters.inbound.response.AppointmentResponse;
@@ -17,10 +18,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.TypeToken;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -120,7 +125,7 @@ public class AppointmentController {
     @Tag(name = "Agendamentos")
     @PutMapping("/{id}/accept")
     @Operation(summary = "Aceitar consulta")
-    public ResponseEntity<AppointmentResponse> acceptAppointment(@PathVariable Long id) {
+    public ResponseEntity<AppointmentResponse> acceptAppointment(@Parameter(description = "ID do agendamento") @PathVariable Long id) {
 
         var appointment = inboundPort.acceptAppointment(id);
         return ResponseEntity.ok(mapper.mapTo(appointment, AppointmentResponse.class));
@@ -129,9 +134,28 @@ public class AppointmentController {
     @Tag(name = "Agendamentos")
     @PutMapping("/{id}/refuse")
     @Operation(summary = "Recusar consulta")
-    public ResponseEntity<AppointmentResponse> refuseAppointment(@PathVariable Long id) {
+    public ResponseEntity<AppointmentResponse> refuseAppointment(@Parameter(description = "ID do agendamento") @PathVariable Long id) {
 
         var appointment = inboundPort.refuseAppointment(id);
         return ResponseEntity.ok(mapper.mapTo(appointment, AppointmentResponse.class));
+    }
+
+    @Tag(name = "Agendamentos")
+    @GetMapping("/{id}/download")
+    @Operation(summary = "Baixar PDF com informações sobre o agendamento")
+    public ResponseEntity<byte[]> generateAppointmentAsPdf(@Parameter(description = "ID do agendamento") @PathVariable Long id) throws DocumentException, IOException {
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        inboundPort.generateAppointmentAsPdf(id, outputStream);
+        byte[] pdfBytes = outputStream.toByteArray();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "appointment.pdf");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(pdfBytes.length)
+                .body(pdfBytes);
     }
 }
