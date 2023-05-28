@@ -6,6 +6,7 @@ import com.ubi.beautyClinic.application.core.domain.Status;
 import com.ubi.beautyClinic.application.core.exceptions.BusinessLogicException;
 import com.ubi.beautyClinic.application.ports.in.AppointmentUseCaseInboundPort;
 import com.ubi.beautyClinic.application.ports.out.AppointmentRepositoryOutboundPort;
+import com.ubi.beautyClinic.application.ports.out.JavaMailSenderOutboundPort;
 import com.ubi.beautyClinic.application.ports.out.PatientRepositoryOutboundPort;
 import com.ubi.beautyClinic.application.ports.out.ProfessionalRepositoryOutboundPort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,31 +24,56 @@ public class AppointmentUseCase implements AppointmentUseCaseInboundPort {
     private final AppointmentRepositoryOutboundPort outboundPort;
     private final PatientRepositoryOutboundPort patientRepositoryOutboundPort;
     private final ProfessionalRepositoryOutboundPort professionalRepositoryOutboundPort;
+    private final JavaMailSenderOutboundPort javaMailSenderOutboundPort;
 
-    public AppointmentUseCase(AppointmentRepositoryOutboundPort outboundPort, PatientRepositoryOutboundPort patientRepositoryOutboundPort, ProfessionalRepositoryOutboundPort professionalRepositoryOutboundPort) {
+    public AppointmentUseCase(AppointmentRepositoryOutboundPort outboundPort, PatientRepositoryOutboundPort patientRepositoryOutboundPort, ProfessionalRepositoryOutboundPort professionalRepositoryOutboundPort, JavaMailSenderOutboundPort javaMailSenderOutboundPort) {
         this.outboundPort = outboundPort;
         this.patientRepositoryOutboundPort = patientRepositoryOutboundPort;
         this.professionalRepositoryOutboundPort = professionalRepositoryOutboundPort;
+        this.javaMailSenderOutboundPort = javaMailSenderOutboundPort;
     }
 
     @Override
+    @Transactional
     public Appointment acceptAppointment(Long id) {
 
         var appointment = outboundPort.findById(id);
         if(appointment.getStatus().equals(Status.REQUESTED))
             appointment.setStatus(Status.TO_ACCOMPLISH);
 
-        return outboundPort.save(appointment);
+        var savedAppointment = outboundPort.save(appointment);
+        var patient = savedAppointment.getPatient();
+
+        var subjectToPatientEmail = "Appointment request update!";
+        var contentToPatientEmail = "Hello " + patient.getFullName().split(" ")[0] +
+                "!\nYour consultation request has been accepted!\n" +
+                "Access your account on the Beauty Clinic platform for more details.";
+
+        sendEmail(patient.getEmail(), subjectToPatientEmail, contentToPatientEmail);
+
+        return savedAppointment;
     }
 
     @Override
+    @Transactional
     public Appointment refuseAppointment(Long id) {
 
         var appointment = outboundPort.findById(id);
         if(appointment.getStatus().equals(Status.REQUESTED))
             appointment.setStatus(Status.REFUSED);
 
-        return outboundPort.save(appointment);
+        var savedAppointment = outboundPort.save(appointment);
+        var patient = savedAppointment.getPatient();
+
+        var subjectToPatientEmail = "Appointment request update!";
+        var contentToPatientEmail = "Hello " + patient.getFullName().split(" ")[0] +
+                "\nUnfortunately, the professional had to refuse his consultation request!\n" +
+                "But don't be discouraged, access your account the Beauty Clinic platform " +
+                "and try to schedule it for another time or with another professional!";
+
+        sendEmail(patient.getEmail(), subjectToPatientEmail, contentToPatientEmail);
+
+        return savedAppointment;
     }
 
     @Override
@@ -67,7 +93,28 @@ public class AppointmentUseCase implements AppointmentUseCaseInboundPort {
         appointment.setRating(null);
         appointment.setDateTime(appointment.getDateTime().withSecond(0).withNano(0));
 
-        return outboundPort.save(appointment);
+        var savedAppointment = outboundPort.save(appointment);
+
+        var subjectToProfessionalEmail = "New appointment request!";
+        var contentToProfessionalEmail = "Hello " + professional.getFullName().split(" ")[0] +
+                    "!\nYou have received a new appointment request!\n " +
+                    "Access your account on the Beauty Clinic platform to accept or decline it.";
+        sendEmail(professional.getEmail(), subjectToProfessionalEmail, contentToProfessionalEmail);
+
+        var subjectToPatientEmail = "Appointment request successful!";
+        var contentToPatientEmail = "Hello " + loggedPatient.getFullName().split(" ")[0] +
+                    "!\nYour appointment request was successfully made!\n " +
+                    "Now all you have to do is wait for the professional to see it and accept it or not, " +
+                    "depending on your availability.";
+        sendEmail(loggedPatientEmail, subjectToPatientEmail, contentToPatientEmail);
+
+        return savedAppointment;
+    }
+
+    private void sendEmail(String receiverEmail, String subject, String content) {
+
+        content = content + "\n\n Beauty Clinic\n[Do not reply to this email]";
+        javaMailSenderOutboundPort.sendEmail(receiverEmail, subject, content);
     }
 
     @Override
