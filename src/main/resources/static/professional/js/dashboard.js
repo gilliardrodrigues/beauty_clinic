@@ -109,8 +109,7 @@ function rejectAppointment(appointment_id) {
     fetch(`http://localhost:8080/appointments/${appointment_id}/refuse`, requestOptions)
     .then(response => response.text())
     .then(result => 
-            // window.location.reload()
-            console.log("123")
+            window.location.reload()
         )
     .catch(error => console.log('error', error));
 }
