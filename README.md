@@ -39,7 +39,7 @@ Trata-se de um sistema que permite o gerenciamento de uma clínica de estética,
 ### 📜 Histórias de usuário
 
 - ✅ Como paciente, eu gostaria de poder me cadastrar na plataforma;
-- ✅ Como paciente, eu gostaria de ter a possiblidade de pesquisar por serviços na plataforma e encontrar profissionais que os oferecem;
+- ✅ Como paciente, eu gostaria de ter a possibilidade de pesquisar por serviços na plataforma e encontrar profissionais que os oferecem;
 - ✅ Como paciente, eu gostaria de ter a possibilidade de marcar consultas pela plataforma;
 - ✅ Como paciente, eu gostaria de poder visualizar meus pedidos de consulta, bem como seus status, através da plataforma;
 - ✅ Como paciente, eu gostaria de ter a possibilidade de baixar um PDF com os detalhes de uma consulta;
@@ -50,7 +50,7 @@ Trata-se de um sistema que permite o gerenciamento de uma clínica de estética,
 
 ### 📁 Descrição da arquitetura:
 
-- Com o objetivo de promover o desacoplamento entre domínio e tecnologia, garantir flexibilidade às mudanças, bem como melhorar a manutenabilidade e a testabilidade da API, a arquitetura adotada foi a [Arquitetura Hexagonal](https://engsoftmoderna.info/artigos/arquitetura-hexagonal.html) (ou "Ports and Adapters").
+- Com o objetivo de promover o desacoplamento entre domínio e tecnologia, garantir flexibilidade às mudanças, bem como melhorar a manutenibilidade e a testabilidade da API, a arquitetura adotada foi a [Arquitetura Hexagonal](https://engsoftmoderna.info/artigos/arquitetura-hexagonal.html) (ou "Ports and Adapters").
 - A descrição abaixo explicita os componentes da arquitetura:
 
 ```
@@ -101,30 +101,21 @@ Os arquivos referentes ao front-end (HTML, CSS, JS e imagens) estão no diretór
 ```
 └── resources
     ├── static
-    │   ├── appointment
-    │   │   ├── css   -> diretório contendo os arquivos CSS relacionados a appointments
-    │   │   │   └── ...
-    │   │   ├── js   -> diretório contendo os arquivos JavaScript relacionados a appointments
-    │   │   │   └── ...
-    │   │   └── img  -> diretório contendo as imagens relacionadas a appointments
-    │   │       └── ...
     │   ├── patient
     │   │   ├── css   -> diretório contendo os arquivos CSS relacionados a patients
     │   │   │   └── ...
     │   │   ├── js   -> diretório contendo os arquivos JavaScript relacionados a patients
     │   │   │   └── ...
-    │   │   └── img  -> diretório contendo as imagens relacionadas a appointments
+    │   │   └── img  -> diretório contendo as imagens relacionadas a patients
     │   │       └── ...
     │   └── professional
     │       ├── css   -> diretório contendo os arquivos CSS relacionados a professionals
     │       │   └── ...
     │       ├── js   -> diretório contendo os arquivos JavaScript relacionados a professionals
     │       |   └── ...
-    │       └── img  -> diretório contendo as imagens relacionadas a appointments
+    │       └── img  -> diretório contendo as imagens relacionadas a professionals
     │           └── ...
     └── templates
-        ├── appointment -> diretório contendo os arquivos HTML relacionados a appointments
-        │   └── ...
         ├── patient -> diretório contendo os arquivos HTML relacionados a patients
         │   └── ...
         └── professional -> diretório contendo os arquivos HTML relacionados a professionals
