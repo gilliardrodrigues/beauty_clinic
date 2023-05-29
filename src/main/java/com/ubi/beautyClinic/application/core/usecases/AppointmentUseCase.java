@@ -47,26 +47,20 @@ public class AppointmentUseCase implements AppointmentUseCaseInboundPort {
     public Appointment acceptAppointment(Long id) {
 
         var appointment = outboundPort.findById(id);
-        var appointments = listAppointmentsForLoggedUser();
+        if(appointment.getStatus().equals(Status.REQUESTED))
+            appointment.setStatus(Status.TO_ACCOMPLISH);
 
-        if(appointments.contains(appointment)) {
-            if(appointment.getStatus().equals(Status.REQUESTED))
-                appointment.setStatus(Status.TO_ACCOMPLISH);
+        var savedAppointment = outboundPort.save(appointment);
+        var patient = savedAppointment.getPatient();
 
-            var savedAppointment = outboundPort.save(appointment);
-            var patient = savedAppointment.getPatient();
+        var subjectToPatientEmail = "Appointment request update!";
+        var contentToPatientEmail = "Hello " + patient.getFullName().split(" ")[0] +
+                "!\nYour consultation request has been accepted!\n" +
+                "Access your account on the Beauty Clinic platform for more details.";
 
-            var subjectToPatientEmail = "Appointment request update!";
-            var contentToPatientEmail = "Hello " + patient.getFullName().split(" ")[0] +
-                    "!\nYour consultation request has been accepted!\n" +
-                    "Access your account on the Beauty Clinic platform for more details.";
+        sendEmail(patient.getEmail(), subjectToPatientEmail, contentToPatientEmail);
 
-            sendEmail(patient.getEmail(), subjectToPatientEmail, contentToPatientEmail);
-            return savedAppointment;
-        }
-        else {
-            throw new BusinessLogicException("There is no appointment with this id in your list!");
-        }
+        return savedAppointment;
     }
 
     @Override
@@ -74,28 +68,21 @@ public class AppointmentUseCase implements AppointmentUseCaseInboundPort {
     public Appointment refuseAppointment(Long id) {
 
         var appointment = outboundPort.findById(id);
-        var appointments = listAppointmentsForLoggedUser();
+        if(appointment.getStatus().equals(Status.REQUESTED))
+            appointment.setStatus(Status.REFUSED);
 
-        if(appointments.contains(appointment)) {
-            if (appointment.getStatus().equals(Status.REQUESTED))
-                appointment.setStatus(Status.REFUSED);
+        var savedAppointment = outboundPort.save(appointment);
+        var patient = savedAppointment.getPatient();
 
-            var savedAppointment = outboundPort.save(appointment);
-            var patient = savedAppointment.getPatient();
+        var subjectToPatientEmail = "Appointment request update!";
+        var contentToPatientEmail = "Hello " + patient.getFullName().split(" ")[0] +
+                "\nUnfortunately, the professional had to refuse his consultation request!\n" +
+                "But don't be discouraged, access your account the Beauty Clinic platform " +
+                "and try to schedule it for another time or with another professional!";
 
-            var subjectToPatientEmail = "Appointment request update!";
-            var contentToPatientEmail = "Hello " + patient.getFullName().split(" ")[0] +
-                    "\nUnfortunately, the professional had to refuse his consultation request!\n" +
-                    "But don't be discouraged, access your account the Beauty Clinic platform " +
-                    "and try to schedule it for another time or with another professional!";
+        sendEmail(patient.getEmail(), subjectToPatientEmail, contentToPatientEmail);
 
-            sendEmail(patient.getEmail(), subjectToPatientEmail, contentToPatientEmail);
-
-            return savedAppointment;
-        }
-        else {
-            throw new BusinessLogicException("There is no appointment with this id in your list!");
-        }
+        return savedAppointment;
     }
 
     @Override
