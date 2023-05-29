@@ -91,7 +91,7 @@ function acceptAppointment(appointment_id) {
 
 function rejectAppointment(appointment_id) {
     
-    const confirmation = confirm("Are you sure you want to accept this appointment?")
+    const confirmation = confirm("Are you sure you want to reject this appointment?")
 
     if(!confirmation) return;
 
@@ -109,7 +109,8 @@ function rejectAppointment(appointment_id) {
     fetch(`http://localhost:8080/appointments/${appointment_id}/refuse`, requestOptions)
     .then(response => response.text())
     .then(result => 
-            window.location.reload()
+            // window.location.reload()
+            console.log("123")
         )
     .catch(error => console.log('error', error));
 }

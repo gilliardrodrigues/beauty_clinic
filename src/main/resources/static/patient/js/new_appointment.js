@@ -28,7 +28,12 @@ document.getElementById("searchForm").addEventListener("submit", function(event)
     .then(function(data) {
       // Authentication successful, perform necessary actions
       // For example, store the token in local storage and redirect to another page
-      insertInList(data);
+      if(data.length == 0){
+        document.getElementById("message").innerHTML = 'No professionals were found';
+        document.getElementById('professional-list').innerHTML = '';
+      }
+      else
+        insertInList(data);
     })
     .catch(function(error) {
       // Authentication failed, display an error message
@@ -40,6 +45,7 @@ function insertInList(data){
     const list = document.getElementById('professional-list');
   
     list.innerHTML = '';
+    document.getElementById("message").innerHTML = '';
   
     // Iterate over the data and create table rows
     data.forEach(item => {
