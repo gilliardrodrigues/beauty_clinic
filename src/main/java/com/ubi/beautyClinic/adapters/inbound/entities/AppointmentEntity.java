@@ -24,7 +24,7 @@ public class AppointmentEntity {
     private Long id;
 
     @NotNull(message = "The date and time are required!")
-    @Future(message = "The date must be in the future!")
+    //@Future(message = "The date must be in the future!")
     private OffsetDateTime dateTime;
 
     @Enumerated(EnumType.STRING)

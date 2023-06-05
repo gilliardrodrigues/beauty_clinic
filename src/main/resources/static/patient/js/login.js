@@ -1,3 +1,8 @@
+function checkLogged() {
+  const token = localStorage.getItem('patientToken');
+  if(token) window.location.href = 'dashboard.html'
+}
+
 document.getElementById("loginForm").addEventListener("submit", function(event) {
     event.preventDefault(); 
   
@@ -22,7 +27,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
       }
     })
     .then(function(data) {
-      localStorage.setItem('token', data.jwtToken);
+      localStorage.setItem('patientToken', data.jwtToken);
       window.location.href = 'dashboard.html';
     })
     .catch(function(error) {

@@ -1,6 +1,6 @@
 function fetchData() {
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('patientToken');
 
     if(token){
         fetch('http://localhost:8080/appointments', {
@@ -72,7 +72,7 @@ function insertDataIntoTable(data) {
   }
 
   function downloadAppointment(id) {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('patientToken');
     fetch(`http://localhost:8080/appointments/${id}/download`, {
         method: 'GET',
         headers: {

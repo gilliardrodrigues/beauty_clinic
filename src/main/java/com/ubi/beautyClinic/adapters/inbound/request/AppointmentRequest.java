@@ -20,7 +20,7 @@ public class AppointmentRequest {
     private Long professionalId;
 
     @NotNull(message = "The date and time are required!")
-    @Future(message = "The date must be in the future!")
+    //@Future(message = "The date must be in the future!")
     private OffsetDateTime dateTime;
 
     @NotNull(message = "Service is required!")

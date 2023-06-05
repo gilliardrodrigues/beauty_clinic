@@ -1,6 +1,6 @@
 
 function checkLogged() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('patientToken');
     if(!token) window.location.href = 'login.html'
 }
 
@@ -9,7 +9,7 @@ document.getElementById("searchForm").addEventListener("submit", function(event)
 
     const service =  document.getElementById("offeredServices").value;
     // var date =  document.getElementById("desiredDate").value;
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('patientToken');
 
     fetch(`http://localhost:8080/professionals/filter/by-service/${service}`, {
       method: 'GET',
@@ -68,7 +68,7 @@ function createNewAppointment(professional_id) {
 
     const service =  document.getElementById("offeredServices").value;
     const date =  document.getElementById("desiredDate").value;
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('patientToken');
 
     if(confirmation){
         var myHeaders = new Headers();

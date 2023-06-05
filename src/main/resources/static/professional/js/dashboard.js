@@ -1,6 +1,6 @@
 function fetchData() {
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('professionalToken');
 
     if(token){
         fetch('http://localhost:8080/appointments', {
@@ -70,7 +70,7 @@ function acceptAppointment(appointment_id) {
 
     if(!confirmation) return;
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('professionalToken');
 
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
@@ -95,7 +95,7 @@ function rejectAppointment(appointment_id) {
 
     if(!confirmation) return;
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('professionalToken');
 
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);

@@ -1,3 +1,8 @@
+function checkLogged() {
+  const token = localStorage.getItem('professionalToken');
+  if(token) window.location.href = 'dashboard.html'
+}
+
 document.getElementById("loginForm").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent form submission
   
@@ -25,7 +30,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     .then(function(data) {
       // Authentication successful, perform necessary actions
       // For example, store the token in local storage and redirect to another page
-      localStorage.setItem('token', data.jwtToken);
+      localStorage.setItem('professionalToken', data.jwtToken);
       window.location.href = 'dashboard.html';
     })
     .catch(function(error) {
